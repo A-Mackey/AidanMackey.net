@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.navbar {
+    position: absolute;
+    width: 100%;
+}
+.currentPage {
+    padding-top: 45px;
+}

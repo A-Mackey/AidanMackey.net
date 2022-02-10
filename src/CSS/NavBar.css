@@ -1,0 +1,22 @@
+.parentDiv {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    padding: 5px 15px;
+}
+
+.title {
+    font-size: x-large;
+    font-weight: 0;
+    display: flex;
+}
+
+.menu {
+    font-size: larger;
+    display: flex;
+}
+
+.menuItemButton {
+    display: block;
+    margin: 0px 10px;
+}
