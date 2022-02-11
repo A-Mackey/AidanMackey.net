@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 
 // CSS
@@ -11,15 +11,15 @@ function Sphere(props) {
     const [hovered, hover] = useState(false)
     const [clicked, click] = useState(false)
     // Subscribe this component to the render-loop, rotate the mesh every frame
-    useFrame((state, delta) => (ref.current.rotation.y += 0.0005))
+    useFrame((state, delta) => (ref.current.rotation.y += 0.00075))
     // Return the view, these are regular Threejs elements expressed in JSX
     return (
       <mesh
-        {...props}
+        position={ props.position }
         ref={ref}
         >
-        <sphereGeometry args={[2.5, 12, 12]} />
-        <meshStandardMaterial color={'#777'} wireframe />
+        <sphereGeometry args={[3.5, 12, 12]} />
+        <meshStandardMaterial color={props.color} wireframe />
       </mesh>
     )
 }
@@ -31,28 +31,35 @@ function Plane(props) {
     const [hovered, hover] = useState(false)
     const [clicked, click] = useState(false)
     // Subscribe this component to the render-loop, rotate the mesh every frame
-    useFrame((state, delta) => (ref.current.rotation.z -= 0.0005))
+    useFrame((state, delta) => (ref.current.rotation.z -= 0.00075/2))
     // Return the view, these are regular Threejs elements expressed in JSX
     return (
       <mesh
-            {...props}
+            position={ props.position }
             ref={ref}
             rotation={ [Math.PI / -2, 0 , 0]}
         >
-        <planeGeometry args={[7,7, 4,4]} />
-        <meshStandardMaterial color={'#777'} wireframe/>
+        <planeGeometry args={[9,9, 4,4]} />
+        <meshStandardMaterial color={props.color} wireframe/>
       </mesh>
     )
   }
 
-function FlyingSphere() {
+function FlyingSphere(props) {
+    useEffect(() => {
+        var canvas = document.getElementById("canvasID");
+
+        canvas.style.minHeight = "85vh";
+        canvas.style.height = "max-content";
+    })
+    
   return (
-    <Canvas class="sphereCanvas">
+    <Canvas id="canvasID">
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
-        <Sphere position={[0, 0.5, -2]} />
-        <Plane position={ [0,-2.5, -2] } />
-  </Canvas>
+          <Sphere position={[0, 0.75, -2]} color={ props.color}/>
+          <Plane position={[0, -2.75, -2]} color={ props.color}/>
+    </Canvas>
   );
 }
 
