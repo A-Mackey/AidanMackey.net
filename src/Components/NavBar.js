@@ -7,13 +7,15 @@ function NavBar(props) {
     const beginTag = " ⌜";
     const endTag = "⌟ ";
 
+    const title = `AidanMackey.net`
+
     const pages = props.pages;
 
     return (
         <div className="navBarParentDiv">
 
             <div className="navBarTitle">
-                {beginTag} Project Title {endTag} 
+                {beginTag} {title} {endTag} 
             </div>
 
             <div className="navBarMenu">
