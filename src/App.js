@@ -3,7 +3,9 @@ import { useState } from "react";
 
 // Pages
 import Home from './Pages/Home'
-import About from './Pages/About'
+import Experience from './Pages/Experience'
+import Projects from './Pages/Projects'
+import Contact from './Pages/Contact'
 
 // Components
 import NavBar from './Components/NavBar'
@@ -13,7 +15,9 @@ function App() {
 
   const Pages = [
     {name:"Home", id: 0, page: <Home />},
-    {name:"About", id: 1, page: <About />},
+    {name:"Experience", id: 1, page: <Experience />},
+    {name:"Projects", id: 1, page: <Projects />},
+    {name:"Contact", id: 1, page: <Contact />},
   ]
 
   return (

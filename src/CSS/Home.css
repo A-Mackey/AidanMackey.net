@@ -1,0 +1,30 @@
+.homeParentDiv {
+    display: flex;
+    justify-content: space-between;
+    min-height: 200px;
+}
+
+.homeLeftSide {
+    justify-content: center;
+    width: 100%;
+}
+
+.homeTitle {
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: xx-large;
+    font-weight: bolder;
+}
+
+.homeBody {
+    color: white;
+    padding-left: 15px;
+    padding-top: 10px;
+}
+
+.homeRightSide {
+    display: flex;
+    width: 100%;
+    padding-top: 40px;
+}

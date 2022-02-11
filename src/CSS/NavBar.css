@@ -1,22 +1,27 @@
-.parentDiv {
+.navBarParentDiv {
     display: flex;
     justify-content: space-between;
     color: white;
     padding: 5px 15px;
 }
 
-.title {
+.navBarTitle {
     font-size: x-large;
-    font-weight: 0;
     display: flex;
 }
 
-.menu {
+.navBarMenu {
     font-size: larger;
     display: flex;
 }
 
-.menuItemButton {
+.navBarMenuItemButton {
     display: block;
-    margin: 0px 10px;
+    margin-left: 20px;
+    transition: 0.5s;
+}
+
+.navBarMenuItemButton:hover {
+    color: orangered;
+    transition: 0.5s;
 }

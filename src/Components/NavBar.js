@@ -10,17 +10,18 @@ function NavBar(props) {
     const pages = props.pages;
 
     return (
-        <div className="parentDiv">
+        <div className="navBarParentDiv">
 
-            <div className="title">
+            <div className="navBarTitle">
                 {beginTag} Project Title {endTag} 
             </div>
 
-            <div className="menu">
+            <div className="navBarMenu">
                 {
                     pages.map((item, index) => (
                         <button
-                            className="menuItemButton"
+                            key={index}
+                            className="navBarMenuItemButton"
                             onClick={() => props.setCurrentPage(index)}
                         >
                             {beginTag}{item.name}{endTag}
