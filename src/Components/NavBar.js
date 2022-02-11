@@ -49,6 +49,7 @@ function NavBar(props) {
                     >
                         {beginTag} 🡠 {endTag}
                     </button>
+                    
                     <button
                             className="navBarMenuItemButtonMINI"
                             onClick={() => props.setCurrentPage(props.currentPage >= props.pages.length - 1 ? 0 : props.currentPage + 1 )}

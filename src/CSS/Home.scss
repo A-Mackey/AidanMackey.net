@@ -23,6 +23,30 @@
     font-weight: bolder;
 }
 
+.homeSocials {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.homeSocialButton {
+    display: flex;
+    padding: 10px;
+    border-radius: 50%;
+    transition: 0.5s;
+}
+
+.homeSocialButton:hover {
+    background-color: orangered;
+    // background-color:rgba(#ff4500, 0.9);
+    transition: 0.5s;
+}
+
+.homeSocialButtonImage {
+    width: 40px;
+}
+
 .homeBody {
     color: white;
     padding-left: 15px;
@@ -34,6 +58,7 @@
     z-index: 0;
     padding-top: 40px;
     min-height: 85vh;
+    height: max-content;
     width: 150vw;
 
     @media only screen and (max-width: 850px) {

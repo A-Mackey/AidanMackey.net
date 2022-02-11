@@ -1,9 +1,11 @@
-
+import '../CSS/Experience.scss'
 
 function Experience(props) {
+  
+
   return (
-    <div>
-      <div>Experience PAGE</div>
+    <div className='homeParentDiv'>
+      <div>Experience</div>
 
     </div>
   );
