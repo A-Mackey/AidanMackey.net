@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, useFrame, } from '@react-three/fiber'
 
 // CSS
 import '../CSS/Sphere.css'
@@ -56,9 +56,9 @@ function FlyingSphere(props) {
     <Canvas id="canvasID">
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
-          <Sphere position={[0, 0.75, -2]} color={ props.color}/>
-          <Plane position={[0, -2.75, -2]} color={ props.color}/>
-    </Canvas>
+        <Sphere position={[0, 0.75, -2]} color={ props.color}/>
+        <Plane position={[0, -2.75, -2]} color={ props.color}/>
+      </Canvas>
   );
 }
 

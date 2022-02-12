@@ -1,3 +1,7 @@
+.bold {
+    font-weight: bolder;
+}
+
 .homeParentDiv {
     display: flex;
     justify-content: space-between;
@@ -21,6 +25,25 @@
     color: white;
     font-size: xx-large;
     font-weight: bolder;
+
+    @media only screen and (max-width: 350px) {
+        font-size: large;
+    }
+}
+
+.homeSubTitle {
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: large;
+
+    @media only screen and (max-width: 385px) {
+        font-size: medium;
+    }
+
+    @media only screen and (max-width: 385px) {
+        font-size: small;
+    }
 }
 
 .homeSocials {
@@ -50,7 +73,21 @@
 .homeBody {
     color: white;
     padding-left: 15px;
+    padding-right: 15px;
     padding-top: 10px;
+    font-size: x-large;
+
+    @media only screen and (max-width: 950px) {
+        font-size: large;
+    }
+
+    @media only screen and (max-width: 450px) {
+        font-size: medium;
+    }
+
+    @media only screen and (max-width: 450px) {
+        font-size: small;
+    }
 }
 
 .homeRightSide {

@@ -7,9 +7,18 @@ function Home(props) {
   const [sphereColor, setSphereColor] = useState("#ffffff");
   const sphereColorDimDelta = 900;
 
-  const title = "[ about me ]"
-  const body = `lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
-  const body1 = `lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu .`
+  const title = "[ aidan mackey ]"
+  const subTitle = "[ developer | student | producer ]"
+  const yearsOfExperience = new Date().getFullYear() - 2019;
+  
+  const body = `With [ ${yearsOfExperience} years ] of software developer experience and 3 years at [ Santa Clara University ] under my belt, I have been able to work at many different companies including my own [ startup ] and have worked on many projects. This website will highlight the more notable ones.`
+
+  const highlights = [
+    { highlight: "3 years", subHighlight: "of developer experience" },
+    { highlight: "3rd year", subHighlight: "Santa Clara Student" },
+    { highlight: "2021", subHighlight: " ACM hackathon winner" },
+  ]
+
 
   const Socials = [
     { id: 0,    name: "LinkedIn",    ref: require("../Pictures/LinkedIn.png"),  link:"https://www.linkedin.com/in/aidanmackey/"    },
@@ -32,6 +41,7 @@ function Home(props) {
         className='homeLeftSide'
       >
         <div className='homeTitle'>{title}</div>
+        <div className='homeSubTitle'>{subTitle}</div>
 
         <div className='homeSocials'>
           {
@@ -45,8 +55,15 @@ function Home(props) {
           }
         </div>
 
-        <div className='homeBody'>{body}</div>
-        <div className='homeBody'>{body1}</div>
+        <div className='homeBody'>
+          {
+            highlights.map((item, index) => (
+              <li>[ {item.highlight} ] { item.subHighlight}</li>
+            ))
+          }
+        </div>
+
+        {/* <div className='homeBody'>{body}</div> */}
       </div>
       <div
         className='homeRightSide'
