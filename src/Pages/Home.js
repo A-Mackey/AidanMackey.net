@@ -55,15 +55,15 @@ function Home(props) {
           }
         </div>
 
-        <div className='homeBody'>
+        {/* <div className='homeBody'>
           {
             highlights.map((item, index) => (
               <li>[ {item.highlight} ] { item.subHighlight}</li>
             ))
           }
-        </div>
+        </div> */}
 
-        {/* <div className='homeBody'>{body}</div> */}
+        <div className='homeBody'>With <span className='highlightText'> {yearsOfExperience} years</span> of software developer experience and 3 years at <span className='highlightText'>Santa Clara University</span> under my belt, I have been able to work at many different companies including my own <span className='highlightText'>startup</span> and have worked on many projects. This website will highlight the more notable ones.</div>
       </div>
       <div
         className='homeRightSide'
