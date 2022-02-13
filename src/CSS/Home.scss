@@ -5,13 +5,12 @@
 .homeParentDiv {
     display: flex;
     justify-content: space-between;
-    min-height: 92vh;
+    min-height: 90vh;
 }
 
 .homeLeftSide {
-    position: absolute;
     z-index: 1;
-
+    min-height: 90vh;
     max-width: 60%;
 
     @media only screen and (max-width: 850px) {
@@ -27,7 +26,7 @@
     font-weight: bolder;
 
     @media only screen and (max-width: 350px) {
-        font-size: large;
+        font-size: x-large;
     }
 }
 
@@ -75,19 +74,59 @@
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 10px;
-    font-size: x-large;
+    font-size: xx-large;
+    height: 100%;
 
-    @media only screen and (max-width: 950px) {
+    @media only screen and (max-width: 1100px) {
         font-size: large;
     }
 
-    @media only screen and (max-width: 450px) {
-        font-size: medium;
+    @media only screen and (max-width: 950px) {
+        font-size: x-large;
     }
 
     @media only screen and (max-width: 450px) {
-        font-size: small;
+        font-size: x-large;
     }
+
+    @media only screen and (max-width: 450px) {
+        font-size: x-large;
+    }
+}
+
+.changeShapeButtonsParent {
+    position: absolute;
+    z-index: 3;
+    bottom: 0;
+    left: 0;
+}
+
+.changeShapeButtons {
+    display: flex;
+    justify-content: space-evenly;
+    color: orangered;
+    width: 100vw;
+    z-index: 2;
+
+}
+
+.changeShapeButton {
+    display: flex;
+    font-size: x-large;
+    color: white;
+
+    @media only screen and (max-width: 400px) {
+        font-size: large;
+    }
+
+    transition: 0.5s;
+}
+
+.changeShapeButton:hover {
+    color: orangered;
+
+    transition: 0.5s;
+
 }
 
 .highlightText {
@@ -98,11 +137,20 @@
     position: absolute;
     z-index: 0;
     padding-top: 40px;
-    min-height: 85vh;
+    // min-height: 85vh;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
     height: max-content;
     width: 150vw;
 
     @media only screen and (max-width: 850px) {
         width: 100vw;
     }
+}
+
+.homeSphereObject {
+    background-color: green;
+    height: 10%;
 }
