@@ -1,0 +1,62 @@
+.titleWrapper {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+}
+
+.titleFront {
+    position: absolute;
+
+    height: 100%;
+    width: 100%;
+}
+
+.titleParent {
+    display: flex;
+    height: 100%;
+    width: 100%;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.titleCenter {
+
+    color: white;
+
+    width: 50%;
+    height: 30%;
+
+    // background-color: darkgreen;
+}
+
+.titleTitle {
+    font-size: 9ch;
+}
+
+.titleSubTitle {
+    font-size: 3ch;
+
+    color: #DC2F02;
+}
+
+.titleBack {
+    position: absolute;
+
+    height: 100%;
+    width: 100%;
+}
+
+.titleBackParent {
+    display: flex;
+    height: 100%;
+    width: 100%;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.titleBackCenter {
+
+    color: rgba(255, 255, 255, 0);
+}

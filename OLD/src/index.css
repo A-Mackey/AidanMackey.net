@@ -1,0 +1,40 @@
+body {
+  font-family: "Source Code Pro", monospace;
+  overflow-x: hidden;
+}
+
+code {
+    font-family: "Source Code Pro", monospace;
+}
+
+/*  SCROLLBAR  */
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #fff;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}
+
+/* Custome Text Highlighting */
+::-moz-selection { 
+  background-color: transparent; 
+  color: orangered;
+  }
+  
+  ::selection {
+  background-color: transparent;
+  color: orangered;
+  }
