@@ -25,6 +25,7 @@ function Header() {
           {
             links.map((item, index) => (
               <button
+                key={index}
                 className="headerButton">
                 {beginTag}{item.title}{endTag}
               </button>

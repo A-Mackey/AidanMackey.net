@@ -1,9 +1,12 @@
 import { useState } from "react";
 import "../CSS/TitlePage.scss"
 
+// Components
+import Space from './Space'
+
 function TitlePage() {
     const [title, setTitle] = useState("<AidanMackey/>")
-    const [subTitle, setSubTitle] = useState("Developer, Student, Producer")
+    const [subTitle, setSubTitle] = useState("Engineer, Developer, Student")
     return (
         // What's in the front
       <div className="titleWrapper">
@@ -21,13 +24,13 @@ function TitlePage() {
         </div>
             
         {/* What's in the back */}
-        {/* <div className="titleBack">
+        <div className="titleBack">
             <div className="titleBackParent">
                 <div className="titleBackCenter">
-                    THIS IS A TEST TO SEE EVEN MORE
+                    <Space />
                 </div>
             </div>
-        </div> */}
+        </div>
     </div>
   );
 }
