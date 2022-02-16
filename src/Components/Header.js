@@ -6,7 +6,7 @@ import '../CSS/Header.scss'
 function Header() {
   const beginTag = "⌜"; // ⌜
   const endTag = "⌟"; // ⌟
-  const [header, setHeader] = useState("<AM/>");
+  const [header, setHeader] = useState("[ Title ]");
   
   const links = [
     {id: 0, title: "Home", ref:""},

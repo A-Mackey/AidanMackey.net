@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../CSS/TitlePage.scss"
 
 // Components
-import Space from './Space'
+import Space from '../Components/Space'
 
 function TitlePage() {
     const [title, setTitle] = useState("<AidanMackey/>")
@@ -24,13 +24,13 @@ function TitlePage() {
         </div>
             
         {/* What's in the back */}
-        <div className="titleBack">
+        {/* <div className="titleBack">
             <div className="titleBackParent">
                 <div className="titleBackCenter">
                     <Space />
                 </div>
             </div>
-        </div>
+        </div> */}
     </div>
   );
 }

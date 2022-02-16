@@ -4,16 +4,12 @@ import { useEffect, useState, useRef } from 'react';
 
 const Rotate = () => {
     const {gl, camera} = useThree();
-
     const ref = useRef()
-
-
     useFrame(() => {
-        camera.rotation.x += 0.0005;
-        camera.rotation.y += 0.0005;
-        camera.rotation.z += 0.0005;
+        camera.rotation.x += 0.000175;
+        camera.rotation.y += 0.000175;
+        camera.rotation.z += 0.000175;
     })
-
     return (
         <mesh>
             <boxGeometry args={[0,0,0]}/>
@@ -26,8 +22,10 @@ export default function Space() {
         function resetCanvas() {
             var canvas = document.getElementById("canvasID");
     
-            canvas.style.minHeight = "110vh";
+            canvas.style.minHeight = "100vh";
             canvas.style.minWidth = 'calc(100vw - 7px)'
+            canvas.style.position = "fixed"
+            canvas.style.zIndex = "0"
         }
 
         window.addEventListener('resize', resetCanvas)
@@ -36,7 +34,7 @@ export default function Space() {
     return  (
         <Canvas id='canvasID'>
             <PerspectiveCamera rotation={[0, 0, 0]}>
-                <Stars  />
+                <Stars />
                 <Rotate />
             </PerspectiveCamera>
         </Canvas>

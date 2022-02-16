@@ -1,15 +1,23 @@
 import './App.scss';
 
 // Components
+import Space from './Components/Space'
 import Header from './Components/Header'
-import TitlePage from './Components/TitlePage'
+import Home from './Pages/Home'
+import Experiences from './Pages/Experiences'
 
 function App() {
   return (
     <div className="App">
+      <Space />
+
       <Header />
 
-      <TitlePage />
+      <Home />
+
+      <Experiences />
+
+
     </div>
   );
 }

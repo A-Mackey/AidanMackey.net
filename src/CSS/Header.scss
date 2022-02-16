@@ -1,5 +1,5 @@
 .headerParent {
-    position: absolute;
+    position: fixed;
     z-index: 1000;
     display: flex;
     justify-content: space-between;
@@ -9,7 +9,7 @@
 .headerTitle {
     padding-left: 20px;
     padding-top: 10px;
-    font-size: calc(0.5ch + 1.5vw);
+    font-size: calc(0.1ch + 1.5vw);
     color: white;
 }
 
