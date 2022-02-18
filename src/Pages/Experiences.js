@@ -61,6 +61,18 @@ function Experiences() {
                 "Developed the companies products, website, and back-end API's."
             ]
         },
+        {
+
+            id: 4, 
+            start: "June 2016", 
+            end: "September 2019", 
+            name: "Santa Margarita High School", 
+            position: "IT Intern & Consultant", 
+            imgRef: PanterixLogo,
+            points: [
+                "Repaired broken computers and prepared technology for the school year.",
+            ]
+        },
     ]
 
     return (

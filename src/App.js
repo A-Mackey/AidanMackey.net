@@ -3,8 +3,11 @@ import './App.scss';
 // Components
 import Space from './Components/Space'
 import Header from './Components/Header'
+
+// Pages
 import Home from './Pages/Home'
 import Experiences from './Pages/Experiences'
+import About from './Pages/About'
 
 function App() {
   return (
@@ -15,7 +18,7 @@ function App() {
 
       {/* Pages */}
       <Home />
-
+      <About />
       <Experiences />
 
 
