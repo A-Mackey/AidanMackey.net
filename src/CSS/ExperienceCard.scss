@@ -1,14 +1,47 @@
 .expCardWrapper {
+    margin-top: 10px;
+}
+
+.expCardParent {
     display: flex;
-    background-color: green;
 }
 
 .expCardImgWrapper {
-    height: 30px;
-    width: 30px ;
+    padding: 5px 5px;
+    height: 35px;
+    width: 35px ;
 }
 
 .imgCardImg {
     height: 100%;
-    width: 100%;
+    padding-top: 7px;
+}
+
+.expCardTextWrapper {
+}
+
+.expCardTextTitle {
+    padding-top: 10px;
+    padding-left: 10px;
+
+    font-weight: 400;
+    font-size: x-large;
+}
+
+.expCardTextSubTitle {
+    padding-left: 10px;
+    
+    font-size: large;
+
+    color: rgb(212, 212, 212);
+}
+
+.expCardList {
+    margin: 10px 0 0 0 ;
+}
+
+.expCardListItem {
+    margin-top: 5px;
+    font-size: large;
+    color: rgb(226, 226, 226);
 }

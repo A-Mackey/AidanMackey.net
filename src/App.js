@@ -9,10 +9,11 @@ import Experiences from './Pages/Experiences'
 function App() {
   return (
     <div className="App">
+      {/* Fixed position over screen */}
       <Space />
-
       <Header />
 
+      {/* Pages */}
       <Home />
 
       <Experiences />

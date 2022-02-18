@@ -1,10 +1,9 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { OrbitControls, PerspectiveCamera, Stars } from '@react-three/drei'
-import { useEffect, useState, useRef } from 'react';
+import { PerspectiveCamera, Stars } from '@react-three/drei'
+import { useEffect } from 'react';
 
 const Rotate = () => {
-    const {gl, camera} = useThree();
-    const ref = useRef()
+    const {camera} = useThree();
     useFrame(() => {
         camera.rotation.x += 0.000175;
         camera.rotation.y += 0.000175;
@@ -33,6 +32,8 @@ export default function Space() {
     })
     return  (
         <Canvas id='canvasID'>
+            <ambientLight />
+
             <PerspectiveCamera rotation={[0, 0, 0]}>
                 <Stars />
                 <Rotate />
