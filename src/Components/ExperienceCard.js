@@ -1,6 +1,23 @@
 import "../CSS/ExperienceCard.scss"
 
-function Experiences(props) {
+// Pictures
+import dropdownLogo from '../Assets/dropdown.png'
+
+function ExperienceCard(props) {
+
+
+    const expandCard = () => {
+      var points = document.querySelectorAll("[id='points']")
+      points[props.index].classList.add("expandCardAnimation")
+      points[props.index].style.opacity = "1"
+
+      var dropDownMenus = document.querySelectorAll("[id='expCardButton']")
+      dropDownMenus[props.index].classList.add("rotateExpCardDropdownLogo")
+      dropDownMenus[props.index].style.webkitTransform = "rotate(-90deg)"
+      dropDownMenus[props.index].style.mozTransform = "rotate(-90deg)"
+      dropDownMenus[props.index].style.oTransform = "rotate(-90deg)"
+    };
+
     return (
         // What's in the front
       <div className="expCardWrapper">
@@ -9,13 +26,21 @@ function Experiences(props) {
             <img className="imgCardImg" src={props.img} alt={props.alt} />
           </div>
           <div className="expCardTextWrapper">
-            <div className="expCardTextTitle">
-              {props.company} - {props.position}
+            <div className="expCardTextUpperHalf">
+              <div className="expCardTextTitle">
+                {props.company} - {props.position}
+              </div>
+              <div className="expCardDropdownLogoWrapper">
+                <button onClick={() => expandCard()} id="expCardButton" className="expCardButton">
+                <img className="expCardDropdownLogo" src={dropdownLogo} alt={dropdownLogo} />
+                </button>
+              </div>
             </div>
             <div className="expCardTextSubTitle">
               {props.start} - {props.end}
             </div>
-            <ul className="expCardList">
+            
+            <ul className="expCardList" id="points">
               {
                 props.points.map((item, index) => (
                   <li 
@@ -23,7 +48,7 @@ function Experiences(props) {
                     className="expCardListItem"
                   >
                     {item}
-                    </li>
+                  </li>
                 ))
               }
             </ul>
@@ -33,4 +58,4 @@ function Experiences(props) {
   );
 }
 
-export default Experiences;
+export default ExperienceCard;

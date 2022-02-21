@@ -88,6 +88,7 @@ function Experiences() {
                         experiences.map((item, index) => (
                             <ExperienceCard 
                                 key={index} 
+                                index={index}
                                 company={item.name} 
                                 position={item.position} 
                                 start={item.start} 
