@@ -1,16 +1,19 @@
+
 body {
-  font-family: "Source Code Pro", monospace;
-  overflow-x: hidden;
+  margin: 0;
+  font-family: 'Roboto Condensed', sans-serif;
+  /* overflow-x: hidden; */
 }
 
 code {
-    font-family: "Source Code Pro", monospace;
+  font-family: 'Roboto Condensed', sans-serif;
 }
+
 
 /*  SCROLLBAR  */
 /* width */
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 3px;
 }
 
 /* Track */
@@ -31,10 +34,10 @@ code {
 /* Custome Text Highlighting */
 ::-moz-selection { 
   background-color: transparent; 
-  color: orangered;
+  color: #E85D04;
   }
   
   ::selection {
   background-color: transparent;
-  color: orangered;
+  color: #E85D04  ;
   }

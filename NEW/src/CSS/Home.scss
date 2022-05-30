@@ -1,0 +1,158 @@
+.bold {
+    font-weight: bolder;
+}
+
+.homeParentDiv {
+    display: flex;
+    justify-content: space-between;
+    min-height: 90vh;
+}
+
+.homeLeftSide {
+    z-index: 1;
+    min-height: 90vh;
+    max-width: 60%;
+    margin-top: 45px;
+
+    @media only screen and (max-width: 850px) {
+        max-width: 100vw;
+    }
+}
+
+.homeTitle {
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: xx-large;
+    font-weight: bolder;
+
+    @media only screen and (max-width: 350px) {
+        font-size: x-large;
+    }
+}
+
+.homeSubTitle {
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: large;
+
+    @media only screen and (max-width: 385px) {
+        font-size: medium;
+    }
+
+    @media only screen and (max-width: 385px) {
+        font-size: small;
+    }
+}
+
+.homeSocials {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.homeSocialButton {
+    display: flex;
+    padding: 10px;
+    border-radius: 50%;
+    transition: 0.5s;
+}
+
+.homeSocialButton:hover {
+    background-color: orangered;
+    // background-color:rgba(#ff4500, 0.9);
+    transition: 0.5s;
+}
+
+.homeSocialButtonImage {
+    width: 40px;
+}
+
+.homeBody {
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    font-size: xx-large;
+    font-weight: 500;
+    height: 100%;
+
+    @media only screen and (max-width: 1100px) {
+        font-size: large;
+    }
+
+    @media only screen and (max-width: 950px) {
+        font-size: x-large;
+    }
+
+    @media only screen and (max-width: 450px) {
+        font-size: x-large;
+    }
+
+    @media only screen and (max-width: 450px) {
+        font-size: x-large;
+    }
+}
+
+.changeShapeButtonsParent {
+    position: absolute;
+    z-index: 3;
+    bottom: 0;
+    left: 0;
+}
+
+.changeShapeButtons {
+    display: flex;
+    justify-content: space-evenly;
+    color: orangered;
+    width: 100vw;
+    z-index: 2;
+
+}
+
+.changeShapeButton {
+    display: flex;
+    font-size: x-large;
+    color: white;
+
+    @media only screen and (max-width: 400px) {
+        font-size: large;
+    }
+
+    transition: 0.5s;
+}
+
+.changeShapeButton:hover {
+    color: orangered;
+
+    transition: 0.5s;
+
+}
+
+.highlightText {
+    color: orangered;
+}
+
+.homeRightSide {
+    position: absolute;
+    z-index: 0;
+    padding-top: 40px;
+    // min-height: 85vh;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: max-content;
+    width: 150vw;
+
+    @media only screen and (max-width: 850px) {
+        width: 100vw;
+    }
+}
+
+.homeSphereObject {
+    background-color: green;
+    height: 10%;
+}

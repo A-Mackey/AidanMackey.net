@@ -1,0 +1,67 @@
+.navBarParentDiv {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    padding: 5px 15px;
+
+    // Disables text highlighting
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+}
+
+.navBarTitle {
+    font-size: x-large;
+    display: flex;
+
+    @media only screen and (max-width: 850px) {
+        font-size: large;
+    }
+    @media only screen and (max-width: 400px) {
+        font-size: medium;
+    }
+
+    transition: 0.5s;
+}
+
+.navBarMenu {
+    font-size: larger;
+    display: flex;
+}
+
+.navBarMenuItemButton {
+    display: block;
+    margin-left: 20px;
+    transition: 0.5s;
+    @media only screen and (max-width: 850px) {
+        margin-left: 10px;
+    }
+    
+
+    transition: 0.5s;
+}
+
+.navBarMenuItemButtonMINI {
+    display: block;
+    margin-left: 20px;
+    transition: 0.5s;
+    letter-spacing: -2px;
+    font-size: medium;
+
+    @media only screen and (max-width: 400px) {
+        font-size: small;
+    }
+}
+
+.navBarMenuItemButton:hover {
+    color: orangered;
+    transition: 0.5s;
+}
+
+.navBarMenuItemButtonMINI:hover {
+    color: orangered;
+    transition: 0.5s;
+}

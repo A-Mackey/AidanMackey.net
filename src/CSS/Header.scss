@@ -1,0 +1,43 @@
+.headerParent {
+    position: fixed;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.headerTitle {
+    padding-left: 20px;
+    padding-top: 10px;
+    font-size: calc(0.1ch + 1.5vw);
+    color: white;
+}
+
+.headerButtonParent {
+    display: flex;
+    padding-top: 10px;
+    padding-right: 20px;
+
+    color: white;
+}
+
+.headerButton {
+    margin-left: 20px;
+
+    color: white;
+    font-size: larger;
+    font-weight: 500;
+    background-color: transparent;
+    border: 0;
+
+    transition: 0.5s;
+}
+
+.headerButton:hover {
+
+    color: #E85D04;
+    background-color: transparent;
+    border: 0;
+
+    transition: 0.5s;
+}
