@@ -35,7 +35,7 @@ export default function Space() {
             <ambientLight />
 
             <PerspectiveCamera rotation={[0, 0, 0]}>
-                <Stars />
+                <Stars saturation={0} />
                 <Rotate />
             </PerspectiveCamera>
         </Canvas>
