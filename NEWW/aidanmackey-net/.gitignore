@@ -2,8 +2,6 @@
 
 # dependencies
 /node_modules
-/NEWW/aidanmackey-net/node_modules
-/NEW/node_modules
 /.pnp
 .pnp.js
 
