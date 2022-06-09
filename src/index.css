@@ -1,43 +1,54 @@
-
 body {
-  margin: 0;
-  font-family: 'Roboto Condensed', sans-serif;
-  /* overflow-x: hidden; */
+	margin: 0;
+	font-family: "Roboto Condensed", sans-serif;
+
+	overflow-x: hidden;
 }
 
 code {
-  font-family: 'Roboto Condensed', sans-serif;
+	font-family: "Roboto Condensed", sans-serif;
+	color: #dc2f02;
 }
 
+canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	top: 0;
+	left: 0;
+	position: absolute;
+	z-index: -1; /* NOT SURE HOW SUPPORTED THIS IS, IT WORKED IN CHROME */
+}
 
 /*  SCROLLBAR  */
 /* width */
 ::-webkit-scrollbar {
-  width: 3px;
+	width: 3px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #000;
+	background: #000;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #fff;
+	background: #fff;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #ccc;
+	background: #ccc;
 }
 
 /* Custome Text Highlighting */
-::-moz-selection { 
-  background-color: transparent; 
-  color: #E85D04;
-  }
-  
-  ::selection {
-  background-color: transparent;
-  color: #E85D04  ;
-  }
+::-moz-selection {
+	background-color: transparent;
+	color: #e85d04;
+}
+
+::selection {
+	background-color: transparent;
+	color: #e85d04;
+}

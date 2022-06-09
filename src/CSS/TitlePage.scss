@@ -1,59 +1,37 @@
-.titleWrapper {
-    position: relative;
-    height: 100vh;
-    width: 100%;
+.title-wrapper {
+	height: 100vh;
+	width: 100%;
 
-    max-width: 1000px;
-    margin: auto;
+	color: white;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
-.titleFront {
-    position: absolute;
+.title-main {
+	font-size: 9ch;
 
-    height: 100%;
-    width: 100%;
+	@media (max-width: 475px) {
+		font-size: 6ch;
+	}
+
+	@media (max-width: 320px) {
+		font-size: 4ch;
+	}
 }
 
-.titleParent {
-    display: flex;
-    height: 100%;
-    width: 100%;
+.title-sub {
+	font-size: 3ch;
 
-    justify-content: center;
-    align-items: center;
-}
+	@media (max-width: 475px) {
+		font-size: 2ch;
+	}
 
-.titleCenter {
+	@media (max-width: 320px) {
+		font-size: 1.5ch;
+	}
 
-    color: white;
-
-    width: 50%;
-    height: 30%;
-}
-
-.titleTitle {
-    font-size: 9ch;
-}
-
-.titleSubTitle {
-    font-size: 3ch;
-
-    color: #DC2F02;
-}
-
-.titleBack {
-    position: absolute;
-
-    height: 100%;
-    width: 100%;
-}
-
-.titleBackParent {
-    display: flex;
-    height: 100%;
-    width: 100%;
-}
-
-.titleBackCenter {
-    color: rgba(255, 255, 255, 0);
+	color: #dc2f02;
 }
