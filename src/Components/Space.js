@@ -40,6 +40,8 @@ export default function Space() {
 			canvas.style.position = "fixed";
 			canvas.style.zIndex = "0";
 			canvas.style.pointerEvents = "none";
+			// canvas.style.backgroundImage = "linear-gradient(#040825, #060c37)";
+			canvas.style.backgroundColor = "transparent";
 		}
 
 		window.addEventListener("resize", resetCanvas);

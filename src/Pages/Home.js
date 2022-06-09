@@ -2,8 +2,7 @@ import { useState } from "react";
 import "../CSS/TitlePage.scss";
 
 function TitlePage() {
-	const [title, setTitle] = useState("");
-	const [subTitle, setSubTitle] = useState("Engineer, Developer, Student");
+	const subTitle = "Engineer, Developer, Student";
 
 	const finalTitle = "<AidanMackey/>";
 
