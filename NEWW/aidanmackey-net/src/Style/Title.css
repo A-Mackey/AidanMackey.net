@@ -1,0 +1,24 @@
+.title-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 50px;
+	min-height: 100vh;
+}
+
+.title-logo {
+	width: 200px;
+	height: 200px;
+	display: flex;
+	filter: drop-shadow(-3px 5px 3px #a0010199);
+}
+
+.title-text {
+	font-size: 120px;
+	font-weight: 600;
+	letter-spacing: 10px;
+	max-width: 500px;
+	line-height: 120px;
+	text-shadow: #fb020155 1px 0 300px;
+	filter: drop-shadow(-3px 5px 2px #a0010199);
+}
