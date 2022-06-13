@@ -1,4 +1,4 @@
-import "../CSS/ProjectCard.scss";
+import "../CSS/Components/ProjectCard.scss";
 
 import Button from "./Button";
 

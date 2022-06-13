@@ -1,4 +1,4 @@
-import "../CSS/ExperienceCard.scss";
+import "../CSS/Components/ExperienceCard.scss";
 
 // Pictures
 import dropdownLogo from "../Assets/dropdown.png";

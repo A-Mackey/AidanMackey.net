@@ -1,10 +1,13 @@
 import { useState } from "react";
-import "../CSS/Experiences.scss";
-import AmazonLogo from "../Assets/Companies/AmazonWhite.png";
-import INRIXLogo from "../Assets/Companies/INRIX.png";
-import PanterixLogo from "../Assets/Companies/PanterixWhite.png";
+
+import "../../CSS/Pages/Experiences.scss";
+
+// Logos
+import AmazonLogo from "../../Assets/Companies/AmazonWhite.png";
+import INRIXLogo from "../../Assets/Companies/INRIX.png";
+import PanterixLogo from "../../Assets/Companies/PanterixWhite.png";
 // Components
-import ExperienceCard from "../Components/ExperienceCard";
+import ExperienceCard from "../../Components/ExperienceCard";
 
 function Experiences() {
 	const [title] = useState("[ Experiences ]");

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import "../CSS/Contact.scss";
+
+import "../CSS/Pages/Contact.scss";
 
 function Contact() {
 	function submit(name, email, body) {

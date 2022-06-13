@@ -1,4 +1,4 @@
-import "../CSS/Header.scss";
+import "../CSS/Components/Header.scss";
 
 function Header() {
 	const beginTag = "⌜"; // ⌜

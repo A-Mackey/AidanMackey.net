@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import "../CSS/Button.scss";
+import "../CSS/Components/Button.scss";
 
 function Button(props) {
 	useEffect(() => {});

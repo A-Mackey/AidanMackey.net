@@ -1,4 +1,4 @@
-import "../CSS/Footer.scss";
+import "../CSS/Components/Footer.scss";
 
 import github from "../Assets/Socials/github.svg";
 import devpost from "../Assets/Socials/devpost.svg";

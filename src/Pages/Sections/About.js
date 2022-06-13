@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../CSS/About.scss";
+import "../../CSS/Pages/About.scss";
 
 function About() {
 	const [title, setTitle] = useState("[ About Me ]");

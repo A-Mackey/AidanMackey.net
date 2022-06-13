@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../CSS/TitlePage.scss";
+import "../../CSS/Pages/TitlePage.scss";
 
 function TitlePage() {
 	const subTitle = "Engineer, Developer, Student";

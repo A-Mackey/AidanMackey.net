@@ -1,8 +1,8 @@
-import "../CSS/Projects.scss";
+import "../../CSS/Pages/Projects.scss";
 
 import { useEffect, useState } from "react";
 
-import ProjectCard from "../Components/ProjectCard";
+import ProjectCard from "../../Components/ProjectCard";
 
 function Projects() {
 	const projects = [
@@ -42,8 +42,8 @@ function Projects() {
 			title: "IG Captions",
 			description:
 				"Developed a social media caption generation tool using React with a back-end in the Spring Boot Java API framework.",
-			buttonName: "Website",
-			url: "http://igcaptions.online",
+			buttonName: "GitHub",
+			url: "https://github.com/A-Mackey/Caption-Generator-Java-REST-API",
 			color: "#F3B700",
 		},
 		{

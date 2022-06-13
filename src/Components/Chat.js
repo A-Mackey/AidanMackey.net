@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../CSS/Chat.scss";
+import "../CSS/Components/Chat.scss";
 
 function Chat() {
 	return (
