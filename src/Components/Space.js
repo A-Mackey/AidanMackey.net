@@ -3,6 +3,7 @@ import { PerspectiveCamera, Stars } from "@react-three/drei";
 import { useEffect } from "react";
 
 var percent = 0;
+const percentMax = 7.5;
 
 const Rotate = () => {
 	const { camera } = useThree();
@@ -10,7 +11,6 @@ const Rotate = () => {
 		// camera.rotation.x += 0.000175;
 		// camera.rotation.y += 0.000175;
 		// camera.rotation.z += 0.000175;
-
 		// camera.position.x += 1;
 		// camera.position.y -= 1;
 		camera.position.y = percent * -20;
@@ -50,6 +50,10 @@ export default function Space() {
 		document.onscroll = function () {
 			var pos = getVerticalScrollPercentage(document.body);
 			percent = pos;
+
+			document.getElementById("canvasID").style.filter = `blur(${
+				percent > percentMax ? percentMax : percent / 2
+			}px)`;
 		};
 	});
 	return (
