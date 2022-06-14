@@ -10,7 +10,7 @@ body {
 
 code {
 	font-family: "Roboto Condensed", sans-serif;
-	color: #dc2f02;
+	color: var(--orange);
 }
 
 canvas {
@@ -48,10 +48,10 @@ canvas {
 /* Custome Text Highlighting */
 ::-moz-selection {
 	background-color: transparent;
-	color: #e85d04;
+	color: var(--orangeLight);
 }
 
 ::selection {
 	background-color: transparent;
-	color: #e85d04;
+	color: var(--orangeLight);
 }

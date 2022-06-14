@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "../CSS/Components/Chat.scss";
 
 function Chat() {

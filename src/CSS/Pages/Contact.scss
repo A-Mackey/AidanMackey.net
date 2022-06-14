@@ -1,31 +1,39 @@
 input,
 textarea {
-	background-color: rgba(255, 255, 255, 0.5);
+	background-color: rgba(255, 255, 255, 0);
 	border-color: transparent;
 	width: 100%;
-	border: 0;
 	padding: 0;
+
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+	border-bottom-width: 2px;
+	border-color: var(--orange);
 
 	font-family: "Roboto Condensed", sans-serif;
 	font-size: large;
 
 	height: 100%;
+
+	transition: 0.2s;
 }
 
 // For placeholder text
 ::placeholder {
-	color: rgba(0, 0, 0, 0.8);
+	color: rgba(255, 255, 255, 0.7);
 }
 ::-webkit-input-placeholder {
-	color: rgba(0, 0, 0, 0.8);
+	color: rgba(255, 255, 255, 0.7);
 }
 :-ms-input-placeholder {
-	color: rgba(0, 0, 0, 0.8);
+	color: rgba(255, 255, 255, 0.7);
 }
 
 input:focus-visible,
 textarea:focus-visible {
 	outline: 0;
+	border-color: var(--orangeLight);
 }
 
 .contact-wrapper {
@@ -47,31 +55,41 @@ textarea:focus-visible {
 
 .contact-title {
 	font-size: 9ch;
-	color: #dc2f02;
+	color: var(--orange);
+
+	@media only screen and (max-width: 400px) {
+		font-size: 7ch;
+	}
+
+	@media only screen and (max-width: 270px) {
+		font-size: 5ch;
+	}
 }
 
 .contact-card {
-	background-color: rgba(4, 8, 37, 0.9);
+	background-color: var(--primaryDarkDark);
 	// background-color: red;
 	border-radius: 10px;
 
-	height: 400px;
-	width: 600px;
-}
+	max-height: 400px;
+	max-width: 600px;
 
-.contact-header {
-	width: 100%;
-
-	margin-top: 10px;
+	min-height: 300px;
+	width: 50%;
 
 	display: flex;
-	justify-content: space-around;
+	flex-direction: column;
 	gap: 10px;
+
+	padding: 20px;
+
+	@media only screen and (max-width: 800px) {
+		width: 70%;
+	}
 }
 
 .contact-header-name {
 	width: 100%;
-	margin-left: 10px;
 }
 
 .name-input {
@@ -80,7 +98,6 @@ textarea:focus-visible {
 
 .contact-header-email {
 	width: 100%;
-	margin-right: 10px;
 }
 
 .email-input {
@@ -89,7 +106,6 @@ textarea:focus-visible {
 
 .contact-body {
 	height: 70%;
-	margin: 10px;
 }
 
 .body-input {
@@ -98,6 +114,7 @@ textarea:focus-visible {
 	text-align: left;
 
 	border-radius: 5px;
+	resize: none;
 }
 
 .card-footer {
@@ -106,8 +123,8 @@ textarea:focus-visible {
 }
 
 .submit-button {
-	color: black;
-	background-color: #dc2f02;
+	color: var(--primary);
+	background-color: var(--orange);
 
 	font-size: 3ch;
 	cursor: pointer;
@@ -117,16 +134,16 @@ textarea:focus-visible {
 
 	border-style: solid;
 	border-width: 1px;
-	border-color: #dc2f02;
+	border-color: var(--orange);
 
 	transition: 0.2s;
 }
 
 .submit-button:hover {
-	color: #dc2f02;
-	background-color: black;
+	color: var(--orange);
+	background-color: transparent;
 
 	border-style: solid;
 	border-width: 1px;
-	border-color: #dc2f02;
+	border-color: var(--orange);
 }

@@ -25,7 +25,7 @@
 
 .about-title {
 	font-size: 9ch;
-	color: #dc2f02;
+	color: var(--orange);
 
 	@media (max-width: 400px) {
 		font-size: 7ch;

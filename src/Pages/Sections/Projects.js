@@ -78,6 +78,9 @@ function Projects() {
 	return (
 		<div className="projects-wrapper">
 			<div className="projects-parent">
+				<div className="projects-title-wrapper">
+					<div className="projects-title">[ Projects ]</div>
+				</div>
 				{projects.map((item, index) => (
 					<div
 						key={index}

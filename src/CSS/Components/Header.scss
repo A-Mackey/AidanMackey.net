@@ -3,6 +3,7 @@
 	z-index: 1000;
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	width: 100%;
 }
 
@@ -11,6 +12,10 @@
 	padding-top: 10px;
 	font-size: larger;
 	color: white;
+
+	@media only screen and (max-width: 330px) {
+		font-size: small;
+	}
 }
 
 .headerButtonParent {
@@ -32,10 +37,14 @@
 	cursor: pointer;
 
 	transition: 0.5s;
+
+	@media only screen and (max-width: 330px) {
+		font-size: small;
+	}
 }
 
 .headerButton:hover {
-	color: #e85d04;
+	color: var(--orangeLight);
 	background-color: transparent;
 	border: 0;
 

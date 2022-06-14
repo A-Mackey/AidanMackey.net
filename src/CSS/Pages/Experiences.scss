@@ -35,7 +35,7 @@
 
 .expTitle {
 	font-size: 9ch;
-	color: #dc2f02;
+	color: var(--orange);
 
 	@media only screen and (max-width: 550px) {
 		font-size: 7ch;

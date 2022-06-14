@@ -5,7 +5,7 @@
 
 	color: white;
 
-	background-color: #0c2745;
+	background-color: var(--primaryCompliment);
 	box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.354);
 }
 
@@ -21,7 +21,7 @@
 
 	text-align: center;
 
-	color: #dc2f02;
+	color: var(--orange);
 
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -72,18 +72,18 @@
 	border-style: solid;
 	border-width: 1.5px;
 	border-radius: 5px;
-	border-color: #dc2f02;
+	border-color: var(--orange);
 
-	background-color: #dc2f02;
-	color: #0a145c;
+	background-color: var(--orange);
+	color: var(--primaryCompliment);
 
 	transition: 0.2s;
 }
 
 .chat-button:hover {
-	background-color: #0a145c;
-	border-color: #dc2f02;
-	color: #dc2f02;
+	background-color: var(--primaryCompliment);
+	border-color: var(--orange);
+	color: var(--orange);
 
 	box-shadow: 0px 0px 10px black;
 }
