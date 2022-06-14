@@ -1,13 +1,25 @@
-.headerParent {
+.header-wrapper {
 	position: fixed;
-	z-index: 1000;
+	width: 100vw;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.header-parent-wrapper {
+	max-width: 1000px;
+}
+
+.header-parent {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	width: 100%;
+	width: 100vw;
+	max-width: 1000px;
 }
 
-.headerTitle {
+.header-title {
 	padding-left: 20px;
 	padding-top: 10px;
 	font-size: larger;
@@ -18,7 +30,7 @@
 	}
 }
 
-.headerButtonParent {
+.header-button-parent {
 	display: flex;
 	padding-top: 10px;
 	padding-right: 20px;
@@ -26,7 +38,7 @@
 	color: white;
 }
 
-.headerButton {
+.header-button {
 	margin-left: 20px;
 
 	color: white;
@@ -43,7 +55,7 @@
 	}
 }
 
-.headerButton:hover {
+.header-button:hover {
 	color: var(--orangeLight);
 	background-color: transparent;
 	border: 0;
