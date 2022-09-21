@@ -15,11 +15,11 @@ function Projects() {
 			color: "#F7F052",
 		},
 		{
-			title: "AidanMackey.net",
+			title: "Research Paper",
 			description:
-				"Developed this website using React.JS and Three.JS and deployed the website using Docker",
-			buttonName: "GitHub",
-			url: "https://github.com/A-Mackey/AidanMackey.net",
+				"Published a paper at the Good Techs conferance in Belgium with a professor at Santa Clara University",
+			buttonName: "Paper",
+			url: "https://dl.acm.org/doi/abs/10.1145/3411170.3411269",
 			color: "#65AFFF",
 		},
 		{
@@ -86,7 +86,7 @@ function Projects() {
 						key={index}
 						style={{
 							width:
-								pageWidth > 750
+								pageWidth > 760
 									? index % 3 === 0
 										? "100%"
 										: "calc(50% - 5px)"
