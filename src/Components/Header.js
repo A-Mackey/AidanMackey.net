@@ -8,6 +8,7 @@ function Header() {
 	const links = [
 		{ id: 0, title: "Home", ref: "/" },
 		{ id: 1, title: "Contact", ref: "/contact" },
+		{ id: 1, title: "Ray-Casting", ref: ":8080" },
 	];
 
 	return (
