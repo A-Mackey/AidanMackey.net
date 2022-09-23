@@ -2,6 +2,8 @@
 
 # dependencies
 */node_modules*
+./node_modules
+node_modules
 /node_modules
 /NEW/node_modules
 /NEWW/aidanmackey-net/node_modules
