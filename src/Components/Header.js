@@ -6,22 +6,30 @@ function Header() {
 	const header = "[ AM ]";
 
 	const links = [
-		{ id: 0, title: "Home", ref: "/" },
-		{ id: 1, title: "Contact", ref: "/contact" },
-		{ id: 1, title: "Ray-Casting", ref: ":8080" },
+		{ id: 0, title: "Contact", ref: "/contact" },
+		{ id: 1, title: "Game Engine", href: "http://aidanmackey.net:8080" },
 	];
 
 	return (
 		<div className="header-wrapper">
 			<div className="header-parent-wrapper">
 				<div className="header-parent">
-					<div className="header-title">{header}</div>
+					<div
+						className="header-title"
+						onClick={() => (document.location = "/")}
+					>
+						{header}
+					</div>
 
 					<div className="header-button-parent">
 						{links.map((item, index) => (
 							<button
 								key={index}
-								onClick={() => (document.location = item.ref)}
+								onClick={() =>
+									item.ref
+										? (document.location = item.ref)
+										: (window.location.href = item.href)
+								}
 								className="header-button"
 							>
 								{beginTag}
