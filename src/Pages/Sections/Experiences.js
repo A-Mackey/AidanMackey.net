@@ -21,7 +21,9 @@ function Experiences() {
 			position: "Software Engineer Intern",
 			imgRef: AmazonLogo,
 			points: [
-				"Incomming Software Engineer Intern summer of 2022 in Seattle, Washington.",
+				"Developed on Amazon Personalization to integrate profiles on Amazon.com and give a more unique user experience.",
+				"Incorporated profiles into an internal tool that creates and optimizes recommendation widgets.",
+				"Built back-end in Java and deployed logic using AWS Lambda and API Gateway to communicate with a ReactJS webpage.",
 			],
 		},
 		{
