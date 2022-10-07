@@ -2,21 +2,29 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . -t aidanmackey/aidanmackey-net
-    - name: Log into Docker
-      run: docker login -u aidanmackey -p ${{ secrets.DOCKERHUB_PASSWORD}}
-    - name: Push the Docker image
-      run: docker image push --all-tags aidanmackey/aidanmackey-net
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build . -t aidanmackey/aidanmackey-net
+      - name: Log into Docker
+        run: docker login -u aidanmackey -p ${{ secrets.DOCKERHUB_PASSWORD}}
+      - name: Push the Docker image
+        run: docker image push --all-tags aidanmackey/aidanmackey-net
+      - name: Update live build
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_RSA" > ~/.ssh/id_rsa
+          echo "$SSH_RSA_PUB" > ~/.ssh/id_rsa.pub
+          ssh root@159.65.186.92 ./aidanmackeynet.sh
+        shell: bash
+        env:
+          SSH_RSA: ${{secrets.SSH_RSA}}
+          SSH_RSA_PUB: ${{secrets.SSH_RSA_PUB}}

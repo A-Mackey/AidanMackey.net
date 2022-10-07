@@ -22,6 +22,7 @@
 }
 
 .header-title {
+  transition: 0.3s;
 	padding-left: 20px;
 	padding-top: 10px;
 	font-size: larger;
@@ -34,6 +35,7 @@
 
 .header-title:hover {
 	cursor: pointer;
+  color: var(--orange);
 }
 
 .header-button-parent {
