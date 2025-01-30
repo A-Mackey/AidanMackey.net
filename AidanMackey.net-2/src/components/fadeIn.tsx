@@ -11,7 +11,7 @@ export interface FadeInProps {
 
 export default function FadeIn({
   children,
-  duration = 0,
+  duration = 200,
   className = "",
   trigger = true,
 }: FadeInProps) {
@@ -28,7 +28,7 @@ export default function FadeIn({
         }
       },
       {
-        threshold: 0.1,
+        threshold: 0.5,
       }
     );
 

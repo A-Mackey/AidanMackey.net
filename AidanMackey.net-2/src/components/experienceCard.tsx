@@ -12,7 +12,7 @@ export interface ExperienceCardProps {
   bulletPoints: string[];
 }
 
-export default function experienceCard({
+export default function ExperienceCard({
   img,
   company,
   role,
@@ -23,14 +23,18 @@ export default function experienceCard({
   const [showBulletPoints, setShowBulletPoints] = useState<boolean>(false);
 
   return (
-    <div className="transition-all duration-500" key={company + role}>
+    <div
+      className="transition-[margin] duration-500 ease-in-out"
+      style={{ marginBottom: showBulletPoints ? "20px" : "0px" }}
+    >
+      {/* Header Section */}
       <div className="flex justify-between items-center">
         <div className="flex items-center">
           <div className="flex justify-center items-center w-[100px] h-[100px]">
             <img className="w-[40px] h-[40px]" src={img} alt="Company Image" />
           </div>
           <div>
-            <h2>
+            <h2 className="text-2xl">
               {company} - {role}
             </h2>
             <p className="text-md text-textAlternative">
@@ -38,6 +42,7 @@ export default function experienceCard({
             </p>
           </div>
         </div>
+        {/* Expand Button */}
         <div className="w-1 flex justify-center items-center">
           <div
             className="text-2xl cursor-pointer"
@@ -47,17 +52,24 @@ export default function experienceCard({
           </div>
         </div>
       </div>
-      {showBulletPoints && (
-        <FadeIn trigger={showBulletPoints} className="mb-5">
-          <ul>
-            {bulletPoints.map((point: string, index: number) => (
+
+      {/* Expanding Content with max-height */}
+      <div
+        className="overflow-hidden transition-all duration-500 ease-in-out"
+        style={{
+          maxHeight: showBulletPoints ? "200px" : "0px",
+        }}
+      >
+        <FadeIn trigger={showBulletPoints} duration={0}>
+          <ul className="mt-3">
+            {bulletPoints.map((point, index) => (
               <li className="mb-1 pl-24" key={index}>
                 - {point}
               </li>
             ))}
           </ul>
         </FadeIn>
-      )}
+      </div>
     </div>
   );
 }
