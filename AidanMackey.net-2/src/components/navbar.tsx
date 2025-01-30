@@ -8,9 +8,9 @@ export default function NavBar() {
       <div className="flex justify-between bg-red-60 max-w-5xl w-screen ">
         {/* Left */}
         <div className="pl-5 w-auto">
-          <a href="/test">
-            <h3>[AM]</h3>
-          </a>
+          <h3>
+            <a href="">[AM]</a>
+          </h3>
         </div>
         {/* Right */}
         <div className="pr-5">

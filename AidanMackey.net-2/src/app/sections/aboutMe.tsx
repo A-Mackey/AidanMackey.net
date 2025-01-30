@@ -2,7 +2,7 @@ import FadeIn from "@/components/fadeIn";
 
 export default function AboutMe() {
   return (
-    <div className="flex justify-center items-center w-full h-[75vh]">
+    <div className="flex justify-center items-center w-full h-[90vh]">
       <div className="w-full max-w-5xl">
         <FadeIn className="w-[42rem]">
           <h1 className="text-textAlternative">{"<About_Me/>"}</h1>
