@@ -1,6 +1,32 @@
+"use client";
+
 import FadeIn from "@/components/fadeIn";
+import useScreenSize from "@/hooks/useScreenSize";
 
 export default function Landing() {
+  const { mobile } = useScreenSize();
+
+  return mobile ? mobileLading() : desktopLanding();
+}
+
+function mobileLading() {
+  return (
+    <div className="flex justify-center items-center w-full h-screen">
+      <div>
+        <FadeIn duration={250}>
+          <h2>{"<Aidan Mackey/>"}</h2>
+        </FadeIn>
+        <FadeIn duration={1000}>
+          <p className="text-textAlternative text-xs">
+            {"Engineer, Climber, AI Enthusiast"}
+          </p>
+        </FadeIn>
+      </div>
+    </div>
+  );
+}
+
+function desktopLanding() {
   return (
     <div className="flex justify-center items-center w-full h-screen">
       <div>

@@ -1,9 +1,13 @@
+"use client";
+
 import ExperienceCard, {
   ExperienceCardProps,
 } from "@/components/experienceCard";
 import FadeIn from "@/components/fadeIn";
+import useScreenSize from "@/hooks/useScreenSize";
 
-export default function experiences() {
+export default function Experiences() {
+  const { mobile } = useScreenSize();
   const experiences: ExperienceCardProps[] = [
     {
       img: "amazon-icon.svg",
@@ -54,11 +58,22 @@ export default function experiences() {
       ],
     },
   ];
+
   return (
-    <div className="flex flex-col items-center w-full h-screen">
-      <div className="flex flex-col w-full max-w-5xl">
+    <div
+      className={`flex items-center justify-center w-screen min-h-screen ${
+        mobile && "pl-2 pr-8"
+      }`}
+    >
+      <div className="flex flex-col max-w-5xl">
         <FadeIn>
-          <h1 className="w-full text-textAlternative">{"<Experiences/>"}</h1>
+          <h1
+            className={`text-textAlternative ${
+              mobile ? "text-3xl pl-6" : "px-5"
+            }`}
+          >
+            {"<Experiences/>"}
+          </h1>
         </FadeIn>
         <ul>
           {experiences.map((e, index: number) => {

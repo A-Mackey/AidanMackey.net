@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import FadeIn from "./fadeIn";
+import useScreenSize from "@/hooks/useScreenSize";
+import Image from "next/image";
 
 export interface ExperienceCardProps {
   img: string;
@@ -21,23 +23,26 @@ export default function ExperienceCard({
   bulletPoints,
 }: ExperienceCardProps) {
   const [showBulletPoints, setShowBulletPoints] = useState<boolean>(false);
+  const { mobile } = useScreenSize();
 
   return (
     <div
-      className="transition-[margin] duration-500 ease-in-out"
+      className="w-fill transition-[margin] duration-500 ease-in-out"
       style={{ marginBottom: showBulletPoints ? "20px" : "0px" }}
     >
       {/* Header Section */}
       <div className="flex justify-between items-center">
         <div className="flex items-center">
           <div className="flex justify-center items-center w-[100px] h-[100px]">
-            <img className="w-[40px] h-[40px]" src={img} alt="Company Image" />
+            <Image width={40} height={40} src={img} alt="Company Image" />
           </div>
-          <div>
-            <h2 className="text-2xl">
+          <div className="w-full">
+            <h2 className={`${mobile ? "text-base" : "text-2xl"}`}>
               {company} - {role}
             </h2>
-            <p className="text-md text-textAlternative">
+            <p
+              className={`text-md text-textAlternative ${mobile && "text-sm"}`}
+            >
               {startDate} - {endDate}
             </p>
           </div>
@@ -45,7 +50,7 @@ export default function ExperienceCard({
         {/* Expand Button */}
         <div className="w-1 flex justify-center items-center">
           <div
-            className="text-2xl cursor-pointer"
+            className="text-2xl cursor-pointer text-text"
             onClick={() => setShowBulletPoints(!showBulletPoints)}
           >
             {showBulletPoints ? "⮝" : "⮟"}
@@ -55,15 +60,18 @@ export default function ExperienceCard({
 
       {/* Expanding Content with max-height */}
       <div
-        className="overflow-hidden transition-all duration-500 ease-in-out"
+        className="overflow-hidden transition-all duration-500 ease-in-out text-text"
         style={{
-          maxHeight: showBulletPoints ? "200px" : "0px",
+          maxHeight: showBulletPoints ? "250px" : "0px",
         }}
       >
         <FadeIn trigger={showBulletPoints} duration={0}>
           <ul className="mt-3">
             {bulletPoints.map((point, index) => (
-              <li className="mb-1 pl-24" key={index}>
+              <li
+                className={`mb-1 ${mobile ? "pl-4 text-sm" : "pl-24"}`}
+                key={index}
+              >
                 - {point}
               </li>
             ))}

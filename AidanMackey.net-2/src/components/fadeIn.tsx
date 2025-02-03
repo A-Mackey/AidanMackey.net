@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 
 export interface FadeInProps {
-  children: any;
+  children: ReactNode;
   duration?: number;
   className?: string;
   trigger?: boolean;
