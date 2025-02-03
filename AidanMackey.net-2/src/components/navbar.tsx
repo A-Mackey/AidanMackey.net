@@ -62,15 +62,8 @@ function desktopNavbar() {
           <ul className="flex gap-5">
             <li>
               <h3>
-                <a href="/test">
+                <a href="mailto:aidan_mackey@yahoo.com">
                   {leftBuffer}Contact{rightBuffer}
-                </a>
-              </h3>
-            </li>
-            <li>
-              <h3>
-                <a href="/test">
-                  {leftBuffer}Game Engine{rightBuffer}
                 </a>
               </h3>
             </li>
