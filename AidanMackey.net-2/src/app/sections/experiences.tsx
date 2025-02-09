@@ -12,6 +12,18 @@ export default function Experiences() {
     {
       img: "amazon-icon.svg",
       company: "Amazon",
+      role: "Software Development Engineer II",
+      startDate: "July 2023",
+      endDate: "Present",
+      bulletPoints: [
+        "Working in Personalization as a full-stack engineer",
+        "One of the key engeineers in the development and expansion of Amazon Family",
+        "Grew exposure to Amazon Family to millions of customers a day, empowering customers to share prime benefits within their household",
+      ],
+    },
+    {
+      img: "amazon-icon.svg",
+      company: "Amazon",
       role: "Software Engineer Intern",
       startDate: "June 2022",
       endDate: "September 2022",
