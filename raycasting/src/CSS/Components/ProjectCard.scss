@@ -1,0 +1,39 @@
+.project-wrapper {
+	display: flex;
+
+	color: white;
+	background-color: var(--primaryCompliment);
+
+	border-radius: 0 5px 5px 0;
+}
+
+.project-parent {
+	margin: 5px 5px 5px 30px;
+}
+
+.project-stripe {
+	position: relative;
+	width: 5px;
+	// top: 0;
+	// bottom: 0;
+
+	border-radius: 5px 0 0 5px;
+}
+
+.project-title {
+	font-size: 3ch;
+	font-weight: 600;
+
+	margin-top: 30px;
+}
+
+.project-description {
+	font-weight: 300;
+	margin-top: 30px;
+}
+
+.project-button {
+	display: flex;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}

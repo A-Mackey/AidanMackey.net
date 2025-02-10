@@ -1,0 +1,13 @@
+:root {
+	--primary: #060c37;
+	--primaryDark: #040825;
+	--primaryDarkDark: #020413;
+	--primaryCompliment: #0c2745;
+	--orange: #dc2f02;
+	--orangeLight: #e85d04;
+}
+
+.App {
+	background-image: linear-gradient(#060c37, #040825);
+	z-index: -2;
+}

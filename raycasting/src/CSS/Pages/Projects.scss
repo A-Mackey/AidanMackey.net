@@ -1,0 +1,40 @@
+.projects-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	width: 100%;
+	min-height: 100vh;
+
+	justify-content: center;
+	align-items: center;
+}
+.projects-parent {
+	max-width: 1000px;
+
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	justify-content: center;
+
+	margin: 50px 0 50px 0;
+}
+
+.projects-title-wrapper {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin-bottom: 10px;
+}
+
+.projects-title {
+	font-size: 9ch;
+	color: var(--orange);
+
+	@media only screen and (max-width: 550px) {
+		font-size: 7ch;
+	}
+}
+
+.projects-project-card {
+	width: 40%;
+}

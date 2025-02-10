@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  aidan-mackey:
+    image: aidan-mackey-net:latest
+    container_name: aidan-mackey-net
+    restart: unless-stopped
+    ports:
+      - "443:3000"
+    networks:
+      - monitoring
+
+  ray-casting:
+    image: aidanmackey/ray-casting
+    container_name: ray-casting 
+    restart: unless-stopped
+    ports:
+      - "3000:8080"
+    networks:
+      - monitoring
+    depends_on:
+      - aidan-mackey
+
+networks:
+  monitoring:
+    external: true
