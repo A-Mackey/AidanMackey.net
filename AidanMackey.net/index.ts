@@ -13,18 +13,18 @@ app.prepare().then(() => {
   collectDefaultMetrics();
 
   // Define the /metrics endpoint
-  server.get('/metrics', async (req, res) => {
+  server.get('/metrics', async (req: any, res: any) => {
     res.set('Content-Type', register.contentType);
     res.end(await register.metrics());
   });
 
   // Handle other Next.js routes
-  server.all('*', (req, res) => {
+  server.all('*', (req: any, res: any) => {
     return handle(req, res);
   });
 
   // Start the server on port 3000
-  server.listen(3000, (err) => {
+  server.listen(3000, (err: any) => {
     if (err) throw err;
     console.log('> Ready on http://localhost:3000');
   });
