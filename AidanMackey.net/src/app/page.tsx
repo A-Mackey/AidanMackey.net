@@ -11,6 +11,7 @@ import TwoPartFooter from "@/components/twoPartFooter";
 import RibbonFooter from "@/components/ribbonFooter";
 
 export default function Home() {
+  console.log("HERE")
   return (
     <div className={`min-h-screen bg-background`}>
       <Overlay>
