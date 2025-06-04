@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 const roboto = Roboto_Mono({
   subsets: ["latin"],
   weight: ["400", "700"],
-  style: ["normal", "italic"], // Optional
+  style: ["normal", "italic"],
   display: "swap",
 });
 

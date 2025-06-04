@@ -1,23 +1,19 @@
-version: '3.8'
-
 services:
   aidan-mackey-net:
     image: aidan-mackey-net:latest
     container_name: aidan-mackey-net
     restart: unless-stopped
     ports:
-      - "443:3000"
+      - "8000:3000"
     networks:
-      - monitoring
+      - monitoring-beta
 
   ray-casting:
     image: aidanmackey/ray-casting
-    container_name: ray-casting 
+    container_name: ray-casting
     restart: unless-stopped
     ports:
       - "3000:8080"
-    networks:
-      - monitoring
     depends_on:
       - aidan-mackey-net
 
@@ -26,12 +22,12 @@ services:
     container_name: prometheus
     restart: unless-stopped
     ports:
-      - "9090:9090"
+      - "9000:9090"
     volumes:
-      - "/mnt/shared/.logs/prometheus-aidan-mackey-net:/prometheus"
+      - "../data/beta:/prometheus"
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
-      - monitoring
+      - monitoring-beta
     depends_on:
       - aidan-mackey-net
     command:
@@ -39,5 +35,5 @@ services:
       - "--storage.tsdb.path=/prometheus"
 
 networks:
-  monitoring:
+  monitoring-beta:
     external: true

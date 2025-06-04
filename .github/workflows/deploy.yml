@@ -1,0 +1,50 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test
+        run: |
+          echo "Running and Building"
+
+  deploy-beta:
+    needs: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Beta
+      run: ./scripts/deploy.sh beta
+
+  wait-before-gamma:
+    needs: deploy-beta
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait 30 minutes before Gamma
+        run: sleep 1800 # 30 mins
+
+  deploy-gamma:
+    needs: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Gamma
+      run: ./scripts/deploy.sh gamma
+
+  wait-before-prod:
+    needs: deploy-beta
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait 30 minutes before Gamma
+        run: sleep 1800 # 30 mins
+
+  deploy-prod:
+    needs: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Prod
+      run: ./scripts/deploy.sh prod 
