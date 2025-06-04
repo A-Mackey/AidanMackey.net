@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Beta
-        run: ./scripts/deploy.sh beta
+        run: ./deploy/deploy.sh beta
 
   wait-before-gamma:
     needs: deploy-beta
