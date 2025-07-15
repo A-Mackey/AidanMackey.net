@@ -6,6 +6,10 @@ import { ReactNode, useEffect, useState } from "react";
 const leftBuffer = "[";
 const rightBuffer = "]";
 
+const navBarItems = [
+  { href: "mailto:aidann.mackey@gmail.com", text: "Contact" },
+];
+
 export default function NavBar() {
   const { mobile } = useScreenSize();
   const [view, setView] = useState<ReactNode>(mobileNavbar());
@@ -28,20 +32,17 @@ function mobileNavbar() {
         </div>
         <div className="pr-5">
           <ul className="flex gap-5">
-            <li>
-              <h3>
-                <a href="/test">
-                  {leftBuffer}Contact{rightBuffer}
-                </a>
-              </h3>
-            </li>
-            <li>
-              <h3>
-                <a href="/test">
-                  {leftBuffer}Game Engine{rightBuffer}
-                </a>
-              </h3>
-            </li>
+            {navBarItems.map((item, index) => (
+              <li key={index}>
+                <h3>
+                  <a href={item.href}>
+                    {leftBuffer}
+                    {item.text}
+                    {rightBuffer}
+                  </a>
+                </h3>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -60,13 +61,17 @@ function desktopNavbar() {
         </div>
         <div className="pr-5">
           <ul className="flex gap-5">
-            <li>
-              <h3>
-                <a href="mailto:aidan_mackey@yahoo.com">
-                  {leftBuffer}Contact{rightBuffer}
-                </a>
-              </h3>
-            </li>
+            {navBarItems.map((item, index) => (
+              <li key={index}>
+                <h3>
+                  <a href={item.href}>
+                    {leftBuffer}
+                    {item.text}
+                    {rightBuffer}
+                  </a>
+                </h3>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
