@@ -3,24 +3,27 @@
 import FadeIn from "@/components/fadeIn";
 import ProjectCard from "@/components/ProjectCard";
 import useScreenSize from "@/hooks/useScreenSize";
+import { useRouter } from "next/navigation";
 
 export interface Project {
   title: string;
   description: string;
   buttonText: string;
   href: string;
-  index?: number;
+  redirect?: boolean;
 }
 
 export default function Landing() {
   const { mobile } = useScreenSize();
+  const router = useRouter();
   const projects: Project[] = [
     {
       title: "Ai-Dan",
       description:
         "Developed an LLM trained on data about me to answer any questions for users visiting this website!",
       buttonText: "Website",
-      href: "http://aidanmackey.net:8080/",
+      href: "/ai-dan",
+      redirect: false,
     },
     {
       title: "Research Paper",

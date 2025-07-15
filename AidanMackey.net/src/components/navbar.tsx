@@ -27,7 +27,7 @@ function mobileNavbar() {
       <div className="flex justify-between bg-red-60 max-w-5xl w-screen ">
         <div className="pl-5 w-auto">
           <h3>
-            <a href="">[AM]</a>
+            <a href="/">[AM]</a>
           </h3>
         </div>
         <div className="pr-5">

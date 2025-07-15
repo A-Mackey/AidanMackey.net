@@ -1,14 +1,16 @@
 import { Project } from "@/app/sections/projects";
 import FadeIn from "./fadeIn";
 import useScreenSize from "@/hooks/useScreenSize";
+import { redirect } from "next/dist/server/api-utils";
 
 export default function ProjectCard({
   title,
   description,
   buttonText,
   href,
+  redirect,
   index,
-}: Project) {
+}: Project & { index: number }) {
   const { mobile } = useScreenSize();
   const getIndex = () => index ?? 0;
   return (
@@ -23,8 +25,8 @@ export default function ProjectCard({
       </div>
       <button>
         <a
-          href={href}
-          target="_blank"
+          href={href ?? href}
+          target={redirect ? "_blank" : undefined}
           className={`text-textAlternative hover:text-text`}
         >
           {"> " + buttonText}
