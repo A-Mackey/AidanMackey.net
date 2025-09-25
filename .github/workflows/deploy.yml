@@ -33,11 +33,14 @@ jobs:
       - name: Deploy to Beta
         run: |
           ssh -i ~/.ssh/id_rsa deploy_beta@aidanmackey.net << 'EOF'
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm use 22
             cd AidanMackey.net
             git checkout beta
             git pull origin beta
-            /home/deploy_beta/.nvm/versions/node/v22.20.0/bin/npm install dotenv
-            /home/deploy_beta/.nvm/versions/node/v22.20.0/bin/npm run docker:beta
+            npm install dotenv
+            npm run docker:beta
           EOF
 
   deploy-gamma:
@@ -71,11 +74,14 @@ jobs:
       - name: Deploy to Gamma
         run: |
           ssh -i ~/.ssh/id_rsa deploy_gamma@aidanmackey.net << 'EOF'
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm use 22
             cd AidanMackey.net
             git checkout gamma
             git pull origin gamma
-            /home/deploy_gamma/.nvm/versions/node/v22.20.0/bin/npm install dotenv
-            /home/deploy_gamma/.nvm/versions/node/v22.20.0/bin/npm run docker:gamma
+            npm install dotenv
+            npm run docker:gamma
           EOF
 
   deploy-prod:
@@ -109,9 +115,12 @@ jobs:
       - name: Deploy to Prod
         run: |
           ssh -i ~/.ssh/id_rsa deploy_prod@aidanmackey.net << 'EOF'
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm use 22
             cd AidanMackey.net
             git checkout prod
             git pull origin prod
-            /home/deploy_prod/.nvm/versions/node/v22.20.0/bin/npm install dotenv
-            /home/deploy_prod/.nvm/versions/node/v22.20.0/bin/npm docker:prod
+            npm install dotenv
+            npm docker:prod
           EOF
