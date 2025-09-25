@@ -17,7 +17,7 @@ jobs:
           git config --global user.email "ci@example.com"
           git config --global user.name "CI Bot"
           git fetch origin
-          git checkout main
+          git checkout -B beta origin/beta
           git merge origin/main --no-ff -m "Merge main into beta"
           git push origin beta
 
@@ -53,7 +53,7 @@ jobs:
           git config --global user.email "ci@example.com"
           git config --global user.name "CI Bot"
           git fetch origin
-          git checkout gamma
+          git checkout -B gamma origin/gamma
           git merge origin/beta --no-ff -m "Merge beta into gamma"
           git push origin gamma
 
@@ -89,7 +89,7 @@ jobs:
           git config --global user.email "ci@example.com"
           git config --global user.name "CI Bot"
           git fetch origin
-          git checkout prod 
+          git checkout -B prod origin/prod 
           git merge origin/prod --no-ff -m "Merge gamma into prod"
           git push origin prod 
 
