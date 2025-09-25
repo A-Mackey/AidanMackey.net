@@ -1,50 +1,47 @@
-name: Deploy
+name: Deploy Website
 
 on:
   push:
     branches:
-      - main
+      - beta
+      - gamma
+      - prod
 
 jobs:
-  build-test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build and test
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm test
+      - name: Build
+        run: npm run build
+    outputs:
+      build-path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up SSH
         run: |
-          echo "Running and Building"
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscal -H 
 
-  deploy-beta:
-    needs: build-test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to Beta
-        run: ./deploy/deploy.sh beta
 
-  wait-before-gamma:
-    needs: deploy-beta
-    runs-on: ubuntu-latest
-    steps:
-      - name: Wait 30 minutes before Gamma
-        run: sleep 1800 # 30 mins
+      - name: Deploy to ${{ github.ref_name }}
+        run: |
+          ssh -i ~/.ssh/id_rsa user@your.server.com << 'EOF'
+            cd /var/www/AidanMackey.net/${{ github.ref_name }}
+            git pull origin ${{ github.ref_name }}
+            npm install --production
+            pm2 restart myapp   # or systemctl restart nginx, docker compose up, etc.
+          EOF
 
-  deploy-gamma:
-    needs: wait-before-gamma
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to Gamma
-        run: ./scripts/deploy.sh gamma
-
-  wait-before-prod:
-    needs: deploy-gamma
-    runs-on: ubuntu-latest
-    steps:
-      - name: Wait 30 minutes before Prod
-        run: sleep 1800 # 30 mins
-
-  deploy-prod:
-    needs: wait-before-prod
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to Prod
-        run: ./scripts/deploy.sh prod

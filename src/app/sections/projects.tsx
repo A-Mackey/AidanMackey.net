@@ -9,7 +9,7 @@ export interface Project {
   description: string;
   buttonText: string;
   href: string;
-  index?: number;
+  redirect?: boolean;
 }
 
 export default function Landing() {
@@ -20,7 +20,8 @@ export default function Landing() {
       description:
         "Developed an LLM trained on data about me to answer any questions for users visiting this website!",
       buttonText: "Website",
-      href: "http://aidanmackey.net:8080/",
+      href: "/ai-dan",
+      redirect: false,
     },
     {
       title: "Research Paper",

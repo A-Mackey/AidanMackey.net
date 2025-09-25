@@ -7,13 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "docker": "docker build -t aidan-mackey-net ."
+    "docker": "node scripts/docker.js dev",
+    "docker:beta": "node scripts/docker.js beta",
+    "docker:gamma": "node scripts/docker.js gamma",
+    "docker:prod": "node scripts/docker.js prod"
   },
   "dependencies": {
-    "next": "15.1.6",
+    "next": "^15.4.1",
     "prom-client": "^15.1.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
