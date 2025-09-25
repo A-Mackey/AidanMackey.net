@@ -33,8 +33,8 @@ jobs:
       - name: Deploy to Beta
         run: |
           ssh -i ~/.ssh/id_rsa deploy_beta@aidanmackey.net << 'EOF'
+            source ~/.bashrc
             cd AidanMackey.net
-            echo "IM IN" > test
             git checkout beta
             git pull origin beta
             npm install dotenv
@@ -72,6 +72,7 @@ jobs:
       - name: Deploy to Gamma
         run: |
           ssh -i ~/.ssh/id_rsa deploy_gamma@aidanmackey.net << 'EOF'
+            source ~/.bashrc
             cd AidanMackey.net
             git checkout gamma
             git pull origin gamma
@@ -110,6 +111,7 @@ jobs:
       - name: Deploy to Prod
         run: |
           ssh -i ~/.ssh/id_rsa deploy_prod@aidanmackey.net << 'EOF'
+            source ~/.bashrc
             cd AidanMackey.net
             git checkout prod
             git pull origin prod
