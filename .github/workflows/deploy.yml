@@ -11,6 +11,8 @@ jobs:
     environment: beta
     steps:
       - uses: actions/checkout@v5
+        with:
+            fetch-depth: 0
 
       - name: Merge main into beta
         run: |
@@ -43,7 +45,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: gamma
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+        with:
+            fetch-depth: 0
 
       - name: Wait 30 minutes before Gamma deploy
         run: sleep 1800  # 1800 seconds = 30 minutes
@@ -79,7 +83,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: prod
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+        with:
+            fetch-depth: 0
 
       - name: Wait 30 minutes before Prod deploy
         run: sleep 1800
