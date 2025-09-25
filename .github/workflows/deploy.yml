@@ -18,7 +18,7 @@ jobs:
           git config --global user.name "CI Bot"
           git fetch origin
           git checkout -B beta origin/beta
-          git merge origin/main --no-ff -m "Merge main into beta"
+          git merge origin/main --allow-unrelated-histories -m "Merge main into beta"
           git push origin beta
 
       - name: Set up SSH
@@ -54,7 +54,7 @@ jobs:
           git config --global user.name "CI Bot"
           git fetch origin
           git checkout -B gamma origin/gamma
-          git merge origin/beta --no-ff -m "Merge beta into gamma"
+          git merge origin/beta --allow-unrelated-histories -m "Merge beta into gamma"
           git push origin gamma
 
       - name: Set up SSH
@@ -89,8 +89,8 @@ jobs:
           git config --global user.email "ci@example.com"
           git config --global user.name "CI Bot"
           git fetch origin
-          git checkout -B prod origin/prod 
-          git merge origin/prod --no-ff -m "Merge gamma into prod"
+          git checkout -B prod origin/prod
+          git merge origin/prod --allow-unrelated-histories -m "Merge gamma into prod"
           git push origin prod 
 
       - name: Set up SSH
