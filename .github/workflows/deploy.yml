@@ -34,9 +34,10 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_rsa deploy_beta@aidanmackey.net << 'EOF'
             cd AidanMackey.net
+            echo "IM IN" > test
             git checkout beta
             git pull origin beta
-            npm install --production
+            npm install dotenv
             npm run docker:beta
           EOF
 
@@ -74,7 +75,7 @@ jobs:
             cd AidanMackey.net
             git checkout gamma
             git pull origin gamma
-            npm install --production
+            npm install dotenv
             npm run docker:gamma
           EOF
 
@@ -112,6 +113,6 @@ jobs:
             cd AidanMackey.net
             git checkout prod
             git pull origin prod
-            npm install --production
+            npm install dotenv
             npm run docker:prod
           EOF
