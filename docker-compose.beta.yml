@@ -1,0 +1,17 @@
+services:
+  website-beta:
+    image: aidan-mackey-net-beta
+    container_name: aidan-mackey-net-beta
+    restart: always
+    ports:
+      - "${PORT}:3000"
+    environment:
+      - NODE_ENV=${STAGE}
+    volumes:
+      - ./logs/website_${STAGE}:/app/logs
+    networks:
+      - website
+
+networks:
+  website:
+    driver: bridge

@@ -1,0 +1,17 @@
+services:
+  website-gamma:
+    image: aidan-mackey-net-gamma
+    container_name: aidan-mackey-net-gamma
+    restart: always
+    ports:
+      - "${PORT}:3000"
+    environment:
+      - NODE_ENV=${STAGE}
+    volumes:
+      - ./logs/website_${STAGE}:/app/logs
+    networks:
+      - website
+
+networks:
+  website:
+    driver: bridge

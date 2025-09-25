@@ -21,6 +21,6 @@ execSync(
 // Deploy via Docker Compose
 console.log(`Deploying Docker Compose for stage: ${stage}`);
 execSync(
-  `docker compose --env-file ${envPath} up -d`,
+  `docker compose -f docker-compose.${stage.toLocaleLowerCase()}.yml --env-file ${envPath} up -d`,
   { stdio: 'inherit' }
 );
