@@ -52,8 +52,8 @@ jobs:
         with:
             fetch-depth: 0
 
-      - name: Wait 30 minutes before Gamma deploy
-        run: sleep 1800  # 1800 seconds = 30 minutes
+      # - name: Wait 30 minutes before Gamma deploy
+      #   run: sleep 1800  # 1800 seconds = 30 minutes
 
       - name: Merge beta into gamma
         run: |
@@ -93,8 +93,8 @@ jobs:
         with:
             fetch-depth: 0
 
-      - name: Wait 30 minutes before Prod deploy
-        run: sleep 1800
+      # - name: Wait 30 minutes before Prod deploy
+      #   run: sleep 1800
 
       - name: Merge beta into gamma
         run: |
