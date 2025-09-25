@@ -122,5 +122,5 @@ jobs:
             git checkout prod
             git pull origin prod
             npm install dotenv
-            npm docker:prod
+            npm run docker:prod
           EOF
