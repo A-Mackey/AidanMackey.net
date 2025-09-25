@@ -1,47 +1,111 @@
-name: Deploy Website
+name: Deployment Pipeline
 
 on:
   push:
     branches:
-      - beta
-      - gamma
-      - prod
+      - main
 
 jobs:
-  build:
+  deploy-beta:
     runs-on: ubuntu-latest
+    environment: beta
     steps:
-      - uses: actions/checkout@v4
-      - name: Install dependencies
-        run: npm install
-      - name: Run tests
-        run: npm test
-      - name: Build
-        run: npm run build
-    outputs:
-      build-path: ./dist
+      - uses: actions/checkout@v5
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment: ${{ github.ref_name }}
-    steps:
-      - uses: actions/checkout@v4
+      - name: Merge main into beta
+        run: |
+          git config --global user.email "ci@example.com"
+          git config --global user.name "CI Bot"
+          git fetch origin
+          git checkout main
+          git merge origin/main --no-ff -m "Merge main into beta"
+          git push origin beta
 
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscal -H 
+          ssh-keyscan -H aidanmackey.net >> ~/.ssh/known_hosts
 
-
-      - name: Deploy to ${{ github.ref_name }}
+      - name: Deploy to Beta
         run: |
-          ssh -i ~/.ssh/id_rsa user@your.server.com << 'EOF'
-            cd /var/www/AidanMackey.net/${{ github.ref_name }}
-            git pull origin ${{ github.ref_name }}
+          ssh -i ~/.ssh/id_rsa deploy_beta@aidanmackey.net << 'EOF'
+            cd AidanMackey.net
+            git checkout beta
+            git pull origin beta
             npm install --production
-            pm2 restart myapp   # or systemctl restart nginx, docker compose up, etc.
+            npm run docker:beta
           EOF
 
+  deploy-gamma:
+    needs: deploy-beta
+    runs-on: ubuntu-latest
+    environment: gamma
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Wait 30 minutes before Gamma deploy
+        run: sleep 1800  # 1800 seconds = 30 minutes
+
+      - name: Merge beta into gamma
+        run: |
+          git config --global user.email "ci@example.com"
+          git config --global user.name "CI Bot"
+          git fetch origin
+          git checkout gamma
+          git merge origin/beta --no-ff -m "Merge beta into gamma"
+          git push origin gamma
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H aidanmackey.net >> ~/.ssh/known_hosts
+
+      - name: Deploy to Gamma
+        run: |
+          ssh -i ~/.ssh/id_rsa deploy_gamma@aidanmackey.net << 'EOF'
+            cd AidanMackey.net
+            git checkout gamma
+            git pull origin gamma
+            npm install --production
+            npm run docker:gamma
+          EOF
+
+  deploy-prod:
+    needs: deploy-gamma
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Wait 30 minutes before Prod deploy
+        run: sleep 1800
+
+      - name: Merge beta into gamma
+        run: |
+          git config --global user.email "ci@example.com"
+          git config --global user.name "CI Bot"
+          git fetch origin
+          git checkout prod 
+          git merge origin/prod --no-ff -m "Merge gamma into prod"
+          git push origin prod 
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H your.prod.server.com >> ~/.ssh/known_hosts
+
+      - name: Deploy to Prod
+        run: |
+          ssh -i ~/.ssh/id_rsa deploy_prod@aidanmackey.net << 'EOF'
+            cd AidanMackey.net
+            git checkout prod
+            git pull origin prod
+            npm install --production
+            npm run docker:prod
+          EOF
