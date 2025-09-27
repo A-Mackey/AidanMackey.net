@@ -15,14 +15,14 @@ export interface Project {
 export default function Landing() {
   const { mobile } = useScreenSize();
   const projects: Project[] = [
-    {
-      title: "Ai-Dan",
-      description:
-        "Developed an LLM trained on data about me to answer any questions for users visiting this website!",
-      buttonText: "Website",
-      href: "/ai-dan",
-      redirect: false,
-    },
+    // {
+    //   title: "Ai-Dan",
+    //   description:
+    //     "Developed an LLM trained on data about me to answer any questions for users visiting this website!",
+    //   buttonText: "Website",
+    //   href: "/ai-dan",
+    //   redirect: false,
+    // },
     {
       title: "Research Paper",
       description:
