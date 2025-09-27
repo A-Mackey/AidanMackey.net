@@ -42,6 +42,13 @@ jobs:
             npm install dotenv
             npm run docker:beta
           EOF
+  
+  beta-bake-time:
+    needs: deploy-gamma
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait 30 minutes
+        run: sleep 1800
 
   deploy-gamma:
     needs: deploy-beta
@@ -51,9 +58,6 @@ jobs:
       - uses: actions/checkout@v5
         with:
             fetch-depth: 0
-
-      - name: Wait 30 minutes before Gamma deploy
-        run: sleep 1800  # 1800 seconds = 30 minutes
 
       - name: Merge beta into gamma
         run: |
@@ -84,6 +88,13 @@ jobs:
             npm run docker:gamma
           EOF
 
+  gamma-bake-time:
+    needs: deploy-gamma
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait 30 minutes
+        run: sleep 1800
+
   deploy-prod:
     needs: deploy-gamma
     runs-on: ubuntu-latest
@@ -92,9 +103,6 @@ jobs:
       - uses: actions/checkout@v5
         with:
             fetch-depth: 0
-
-      - name: Wait 30 minutes before Prod deploy
-        run: sleep 1800
 
       - name: Merge beta into gamma
         run: |
