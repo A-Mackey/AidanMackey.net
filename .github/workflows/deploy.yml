@@ -44,14 +44,14 @@ jobs:
           EOF
   
   beta-bake-time:
-    needs: deploy-gamma
+    needs: deploy-beta
     runs-on: ubuntu-latest
     steps:
       - name: Wait 30 minutes
         run: sleep 1800
 
   deploy-gamma:
-    needs: deploy-beta
+    needs: beta-bake-time
     runs-on: ubuntu-latest
     environment: gamma
     steps:
@@ -96,7 +96,7 @@ jobs:
         run: sleep 1800
 
   deploy-prod:
-    needs: deploy-gamma
+    needs: gamma-bake-time
     runs-on: ubuntu-latest
     environment: prod
     steps:
