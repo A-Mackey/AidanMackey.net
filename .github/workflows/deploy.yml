@@ -104,13 +104,13 @@ jobs:
         with:
             fetch-depth: 0
 
-      - name: Merge beta into gamma
+      - name: Merge gamma into prod
         run: |
           git config --global user.email "ci@example.com"
           git config --global user.name "CI Bot"
           git fetch origin
           git checkout -B prod origin/prod
-          git merge origin/prod -X theirs -m "Merge gamma into prod"
+          git merge origin/gamma -X theirs -m "Merge gamma into prod"
           git push origin prod 
 
       - name: Set up SSH
