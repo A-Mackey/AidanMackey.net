@@ -43,15 +43,16 @@ jobs:
             npm run docker:beta
           EOF
   
-  beta-bake-time:
-    needs: deploy-beta
-    runs-on: ubuntu-latest
-    steps:
-      - name: Wait 30 minutes
-        run: sleep 1800
+  # beta-bake-time:
+  #   needs: deploy-beta
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Wait 30 minutes
+  #       run: sleep 1800
 
   deploy-gamma:
-    needs: beta-bake-time
+    # needs: beta-bake-time
+    needs: deploy-beta
     runs-on: ubuntu-latest
     environment: gamma
     steps:
@@ -88,15 +89,16 @@ jobs:
             npm run docker:gamma
           EOF
 
-  gamma-bake-time:
-    needs: deploy-gamma
-    runs-on: ubuntu-latest
-    steps:
-      - name: Wait 30 minutes
-        run: sleep 1800
+  # gamma-bake-time:
+  #   needs: deploy-gamma
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Wait 30 minutes
+  #       run: sleep 1800
 
   deploy-prod:
-    needs: gamma-bake-time
+    # needs: gamma-bake-time
+    needs: deploy-gamma
     runs-on: ubuntu-latest
     environment: prod
     steps:
