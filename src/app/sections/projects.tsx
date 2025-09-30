@@ -24,6 +24,14 @@ export default function Landing() {
     //   redirect: false,
     // },
     {
+      title: "Raycasting Engine",
+      description:
+        "Built a raycasting game engine using WebGL in Javascript and put the application onto a webserver and deployed using Docker",
+      buttonText: "Website",
+      href: "http://raycast.aidanmackey.net/",
+      redirect: true
+    },
+    {
       title: "Research Paper",
       description:
         "Published a paper at the Good Techs conferance in Belgium with a professor at Santa Clara University",
@@ -50,13 +58,6 @@ export default function Landing() {
         "Developed a social media caption generation tool using React with a back-end in the Spring Boot Java API framework.",
       buttonText: "GitHub",
       href: "https://github.com/A-Mackey/Caption-Generator-Java-REST-API",
-    },
-    {
-      title: "Raycasting Engine",
-      description:
-        "Built a raycasting game engine using WebGL in Javascript and put the application onto a webserver and deployed using Docker",
-      buttonText: "Website",
-      href: "http://aidanmackey.net:2080/",
     },
     {
       title: "Hack for Humanity 2021",
