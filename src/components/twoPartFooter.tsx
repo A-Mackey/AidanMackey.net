@@ -16,7 +16,7 @@ export default function TwoPartFooter() {
             }
           </p>
           <button className="pt-10">
-            <a href="mailto:aidan_mackey@yahoo.com">{"> Email"}</a>
+            <a href="mailto:aidann.mackey@gmail.com">{"> Email"}</a>
           </button>
         </FadeIn>
       </div>
