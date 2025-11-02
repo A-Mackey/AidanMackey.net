@@ -8,6 +8,7 @@ const leftBuffer = "[";
 const rightBuffer = "]";
 
 const navBarItems = [
+  { href: "http://raycast.aidanmackey.net", text: "Raycast" },
   { href: "mailto:aidann.mackey@gmail.com", text: "Contact" },
 ];
 
