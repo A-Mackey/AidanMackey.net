@@ -1,8 +1,9 @@
 services:
   website-gamma:
-    image: aidan-mackey-net-gamma
+    image: aidan-mackey-net-gamma:latest
     container_name: aidan-mackey-net-gamma
     restart: always
+    pull_policy: always
     ports:
       - "${PORT}:3000"
     environment:
@@ -11,6 +12,12 @@ services:
       - ./logs/website_${STAGE}:/app/logs
     networks:
       - website
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
 
 networks:
   website:
