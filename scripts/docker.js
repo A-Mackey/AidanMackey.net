@@ -17,19 +17,43 @@ const imageTag = `aidan-mackey-net-${stage}:${timestamp}`;
 const latestTag = `aidan-mackey-net-${stage}:latest`;
 
 console.log(`Building Docker image for stage: ${stage}`);
+console.log(`Image tags: ${imageTag}, ${latestTag}`);
 execSync(
-  `docker build --build-arg STAGE=${stage} -t ${imageTag} -t ${latestTag} -f ./docker/Dockerfile .`,
+  `docker build --no-cache --build-arg STAGE=${stage} -t ${imageTag} -t ${latestTag} -f ./docker/Dockerfile .`,
   { stdio: 'inherit' }
 );
 
-// Pull the new image to ensure it's available
-console.log(`Preparing new image...`);
+console.log(`Image built successfully. Checking image ID...`);
+const imageId = execSync(`docker images ${latestTag} --format "{{.ID}}"`, { encoding: 'utf-8' }).trim();
+console.log(`New image ID: ${imageId}`);
 
-// Update the running containers with the new image using rolling update
-// Docker Compose will start new containers before stopping old ones when using --wait
-console.log(`Deploying new containers for stage: ${stage} (rolling update)`);
+// Stop the old container first to free up the port
+console.log(`Stopping old container for stage: ${stage}`);
+try {
+  execSync(
+    `docker compose -f ./docker/docker-compose.${stage.toLocaleLowerCase()}.yml down`,
+    { stdio: 'inherit' }
+  );
+} catch (e) {
+  console.log('No existing container to stop');
+}
+
+// Start new container with the fresh image
+console.log(`Starting new container for stage: ${stage} with image ${imageId}`);
 execSync(
   `docker compose -f ./docker/docker-compose.${stage.toLocaleLowerCase()}.yml --env-file ${envPath} up -d --wait --wait-timeout 30`,
+  { stdio: 'inherit' }
+);
+
+console.log(`Deployment complete. Verifying container is running...`);
+execSync(
+  `docker compose -f ./docker/docker-compose.${stage.toLocaleLowerCase()}.yml ps`,
+  { stdio: 'inherit' }
+);
+
+console.log(`\nContainer image details:`);
+execSync(
+  `docker ps --filter "name=aidan-mackey-net-${stage}" --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}"`,
   { stdio: 'inherit' }
 );
 
