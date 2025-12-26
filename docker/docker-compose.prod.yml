@@ -3,7 +3,6 @@ services:
     image: aidan-mackey-net-prod:latest
     container_name: aidan-mackey-net-prod
     restart: always
-    pull_policy: always
     ports:
       - "${PORT}:3000"
     environment:
