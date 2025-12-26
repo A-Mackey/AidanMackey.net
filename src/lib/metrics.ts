@@ -1,22 +1,35 @@
 import client from 'prom-client';
 
-// Create a singleton registry to store metrics
-const register = new client.Registry();
+// Use a global variable to ensure singleton pattern in development
+// This prevents re-registration errors during hot reloading
+declare global {
+  var metricsRegistry: client.Registry | undefined;
+  var metricsHttpRequestCounter: client.Counter | undefined;
+  var metricsInitialized: boolean | undefined;
+}
 
-// Collect default system metrics (CPU, memory, event loop, etc.)
-client.collectDefaultMetrics({ register });
+// Create or reuse the registry
+const register = global.metricsRegistry || new client.Registry();
+global.metricsRegistry = register;
 
-// Example: Custom HTTP request counter (we'll use this later)
-console.log("Initializing metrics");
-const httpRequestCounter = new client.Counter({
+// Collect default system metrics only once
+if (!global.metricsInitialized) {
+  client.collectDefaultMetrics({ register });
+  global.metricsInitialized = true;
+}
+
+// Create or reuse the HTTP request counter
+let httpRequestCounter = global.metricsHttpRequestCounter;
+
+if (!httpRequestCounter) {
+  httpRequestCounter = new client.Counter({
     name: 'http_requests_total',
     help: 'Total number of HTTP requests',
     labelNames: ['method', 'route', 'status_code'],
-});
-
-// Register the custom metric
-register.registerMetric(httpRequestCounter);
+    registers: [register],
+  });
+  global.metricsHttpRequestCounter = httpRequestCounter;
+}
 
 // Export for use in API routes
 export { register, httpRequestCounter };
-

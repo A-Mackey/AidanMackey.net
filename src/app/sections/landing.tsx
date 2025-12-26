@@ -4,7 +4,11 @@ import FadeIn from "@/components/fadeIn";
 import useScreenSize from "@/hooks/useScreenSize";
 
 export default function Landing() {
-  const { mobile } = useScreenSize();
+  const { mobile, mounted } = useScreenSize();
+
+  if (!mounted) {
+    return desktopLanding();
+  }
 
   return mobile ? mobileLading() : desktopLanding();
 }
@@ -14,7 +18,7 @@ function mobileLading() {
     <div className="flex justify-center items-center w-full h-screen">
       <div>
         <FadeIn duration={250}>
-          <h2>{"<Aidan Mackey/>"}</h2>
+          <h1>{"<Aidan Mackey/>"}</h1>
         </FadeIn>
         <FadeIn duration={1000}>
           <p className="text-textAlternative text-xs">

@@ -13,7 +13,7 @@ export interface Project {
 }
 
 export default function Landing() {
-  const { mobile } = useScreenSize();
+  const { mobile, mounted } = useScreenSize();
   const projects: Project[] = [
     // {
     //   title: "Ai-Dan",
@@ -74,7 +74,7 @@ export default function Landing() {
         <FadeIn>
           <h2
             className={`px-5 text-textAlternative ${
-              mobile ? "text-3xl" : "text-5xl"
+              mounted && mobile ? "text-3xl" : "text-5xl"
             }`}
           >
             {"<Projects/>"}

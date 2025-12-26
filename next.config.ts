@@ -1,12 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  webpack: (config, { nextRuntime }) => {
-    if (nextRuntime === "nodejs") {
-      config.externals = [...config.externals, "prom-client"];
-    }
-    return config;
-  },
+  serverExternalPackages: ["prom-client"],
 };
 
 export default nextConfig;

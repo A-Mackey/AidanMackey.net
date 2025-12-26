@@ -7,7 +7,7 @@ import FadeIn from "@/components/fadeIn";
 import useScreenSize from "@/hooks/useScreenSize";
 
 export default function Experiences() {
-  const { mobile } = useScreenSize();
+  const { mobile, mounted } = useScreenSize();
   const experiences: ExperienceCardProps[] = [
     {
       img: "amazon-icon.svg",
@@ -74,14 +74,14 @@ export default function Experiences() {
   return (
     <div
       className={`flex items-center justify-center w-screen min-h-screen ${
-        mobile && "pl-2 pr-8"
+        mounted && mobile && "pl-2 pr-8"
       }`}
     >
       <div className="flex flex-col max-w-5xl">
         <FadeIn>
           <h1
             className={`text-textAlternative ${
-              mobile ? "text-3xl pl-6" : "px-5"
+              mounted && mobile ? "text-3xl pl-6" : "px-5"
             }`}
           >
             {"<Experiences/>"}

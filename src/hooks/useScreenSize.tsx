@@ -9,12 +9,13 @@ export interface windowSize {
 
 export default function useScreenSize() {
   const [windowSize, setWindowSize] = useState<windowSize>({
-    width: typeof window !== "undefined" ? window?.innerWidth : 0,
-    height: typeof window !== "undefined" ? window?.innerHeight : 0,
+    width: 0,
+    height: 0,
   });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    setMounted(true);
 
     function handleResize() {
       setWindowSize({
@@ -23,10 +24,11 @@ export default function useScreenSize() {
       });
     }
 
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  return { windowSize, mobile: windowSize.width < 640 };
+  return { windowSize, mobile: windowSize.width < 640, mounted };
 }

@@ -2,7 +2,6 @@
 
 import useScreenSize from "@/hooks/useScreenSize";
 import Link from "next/link";
-import { ReactNode, useEffect, useState } from "react";
 
 const leftBuffer = "[";
 const rightBuffer = "]";
@@ -13,14 +12,13 @@ const navBarItems = [
 ];
 
 export default function NavBar() {
-  const { mobile } = useScreenSize();
-  const [view, setView] = useState<ReactNode>(mobileNavbar());
+  const { mobile, mounted } = useScreenSize();
 
-  useEffect(() => {
-    setView(mobile ? mobileNavbar() : desktopNavbar());
-  }, [mobile]);
+  if (!mounted) {
+    return desktopNavbar();
+  }
 
-  return view;
+  return mobile ? mobileNavbar() : desktopNavbar();
 }
 
 function mobileNavbar() {

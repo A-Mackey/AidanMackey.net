@@ -23,7 +23,7 @@ export default function ExperienceCard({
   bulletPoints,
 }: ExperienceCardProps) {
   const [showBulletPoints, setShowBulletPoints] = useState<boolean>(false);
-  const { mobile } = useScreenSize();
+  const { mobile, mounted } = useScreenSize();
 
   return (
     <div
@@ -37,11 +37,11 @@ export default function ExperienceCard({
             <Image width={40} height={40} src={img} alt="Company Image" />
           </div>
           <div className="w-full">
-            <h2 className={`${mobile ? "text-base" : "text-2xl"}`}>
+            <h2 className={`${mounted && mobile ? "text-base" : "text-2xl"}`}>
               {company} - {role}
             </h2>
             <p
-              className={`text-md text-textAlternative ${mobile && "text-sm"}`}
+              className={`text-md text-textAlternative ${mounted && mobile && "text-sm"}`}
             >
               {startDate} - {endDate}
             </p>
@@ -69,7 +69,7 @@ export default function ExperienceCard({
           <ul className="mt-3">
             {bulletPoints.map((point, index) => (
               <li
-                className={`mb-1 ${mobile ? "pl-4 text-sm" : "pl-24"}`}
+                className={`mb-1 ${mounted && mobile ? "pl-4 text-sm" : "pl-24"}`}
                 key={index}
               >
                 - {point}

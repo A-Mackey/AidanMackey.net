@@ -10,17 +10,17 @@ export default function ProjectCard({
   redirect,
   index,
 }: Project & { index: number }) {
-  const { mobile } = useScreenSize();
+  const { mobile, mounted } = useScreenSize();
   const getIndex = () => index ?? 0;
   return (
     <FadeIn
       className={`${
-        getIndex() % 3 && !mobile ? "w-1/2" : "w-full"
+        getIndex() % 3 && !(mounted && mobile) ? "w-1/2" : "w-full"
       } p-5 flex flex flex-col items-start gap-5`}
     >
       <div>
-        <h2 className={`${mobile ? "text-2xl" : ""}`}>{title}</h2>
-        <p className={`${mobile ? "text-base" : ""}`}>{description}</p>
+        <h2 className={`${mounted && mobile ? "text-2xl" : ""}`}>{title}</h2>
+        <p className={`${mounted && mobile ? "text-base" : ""}`}>{description}</p>
       </div>
       <button>
         <a
