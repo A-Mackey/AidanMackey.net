@@ -37,8 +37,10 @@ jobs:
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             nvm use 22
             cd AidanMackey.net
+            git fetch origin
             git checkout beta
-            git pull origin beta
+            git reset --hard origin/beta
+            git clean -fd
             npm install dotenv
             npm run docker:beta
           EOF
@@ -83,8 +85,10 @@ jobs:
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             nvm use 22
             cd AidanMackey.net
+            git fetch origin
             git checkout gamma
-            git pull origin gamma
+            git reset --hard origin/gamma
+            git clean -fd
             npm install dotenv
             npm run docker:gamma
           EOF
@@ -129,8 +133,10 @@ jobs:
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             nvm use 22
             cd AidanMackey.net
+            git fetch origin
             git checkout prod
-            git pull origin prod
+            git reset --hard origin/prod
+            git clean -fd
             npm install dotenv
             npm run docker:prod
           EOF
