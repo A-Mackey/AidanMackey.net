@@ -16,12 +16,12 @@ export default function Landing() {
 function mobileLading() {
   return (
     <div className="flex justify-center items-center w-full h-screen">
-      <div>
+      <div className="text-center">
         <FadeIn duration={250}>
-          <h1>{"<Aidan Mackey/>"}</h1>
+          <h1 className="text-4xl">{"<Aidan Mackey/>"}</h1>
         </FadeIn>
         <FadeIn duration={1000}>
-          <p className="text-textAlternative text-xs">
+          <p className="text-textAlternative text-sm">
             {"Engineer, Climber, AI Enthusiast"}
           </p>
         </FadeIn>
