@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import FadeIn from "@/components/fadeIn";
 import useScreenSize from "@/hooks/useScreenSize";
+import Overlay from "@/components/overlay";
+import NavBar from "@/components/navbar";
 
 interface PredictionResult {
   predictions: number[];
@@ -302,8 +304,12 @@ export default function MNISTPage() {
   };
 
   return (
-    <div className="flex justify-center items-center w-full min-h-screen bg-background">
-      <div className="max-w-5xl px-5 w-screen py-10">
+    <div className="min-h-screen bg-background">
+      <Overlay>
+        <NavBar />
+      </Overlay>
+      <div className="flex justify-center items-center w-full min-h-screen">
+        <div className="max-w-5xl px-5 w-screen py-10">
         <FadeIn>
           <h1
             className={`font-bold text-text mb-2 ${
@@ -386,14 +392,29 @@ export default function MNISTPage() {
         </FadeIn>
 
         <FadeIn duration={600}>
-          <div className="mt-12 text-textAlternative text-sm">
+          <div className="mt-12 text-textAlternative text-sm space-y-3">
             <p>
-              This demo uses a neural network trained on the MNIST dataset. The
-              model runs on a custom neural network implementation built from
-              scratch.
+              Powered by a neural network library I built from scratch in C++, running on the CPU. No TensorFlow, no PyTorch. Just raw matrix math, backpropagation, and optimization implemented by hand.
+            </p> 
+            <ul>
+              <li className="pl-4 text-text"> - <a className="text-textAlternative" href="https://github.com/A-mackey/ai-dan-core">GitHub Repo</a></li>
+              <li className="pl-4 text-text"> - <a className="text-textAlternative" href="https://pypi.org/project/ai-dan-core/">PIP Package</a></li>
+            </ul>
+            <p>
+              <span className="text-text font-semibold">Architecture:</span>{" "}
+              784-256-128-10 fully-connected network. ReLU activations, softmax output, cross-entropy loss.
+            </p>
+            <p>
+              <span className="text-text font-semibold">Training:</span>{" "}
+              Adam optimizer (lr=0.001, β₁=0.9, β₂=0.999). Batch size 32. 96%+ accuracy on 10k test set.
+            </p>
+            <p>
+              <span className="text-text font-semibold">Implementation:</span>{" "}
+              C++23. Multi-threaded with adaptive parallelism. ~3k samples/sec throughput.
             </p>
           </div>
         </FadeIn>
+        </div>
       </div>
     </div>
   );
