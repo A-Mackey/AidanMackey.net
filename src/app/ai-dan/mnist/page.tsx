@@ -9,11 +9,10 @@ interface PredictionResult {
   digit: number;
 }
 
-const CANVAS_SIZE = 280; // Visual size
-const GRID_SIZE = 28; // MNIST resolution
+const CANVAS_SIZE = 280;
+const GRID_SIZE = 28;
 const PIXEL_SIZE = CANVAS_SIZE / GRID_SIZE;
 
-// WebSocket URL - use environment variable or fallback
 const WS_URL = process.env.NEXT_PUBLIC_MNIST_WS_URL || "wss://backend.aidanmackey.net/ws";
 
 export default function MNISTPage() {
@@ -23,12 +22,13 @@ export default function MNISTPage() {
   const isDrawingRef = useRef(false);
   const wsRef = useRef<WebSocket | null>(null);
   const lastPosRef = useRef<{ x: number; y: number } | null>(null);
+  const lastSendTimeRef = useRef<number>(0);
+  const pendingSendRef = useRef<NodeJS.Timeout | null>(null);
 
   const [prediction, setPrediction] = useState<PredictionResult | null>(null);
   const [connected, setConnected] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Connect to WebSocket
   useEffect(() => {
     let isMounted = true;
     let reconnectTimeout: NodeJS.Timeout | null = null;
@@ -36,32 +36,26 @@ export default function MNISTPage() {
     const connect = () => {
       if (!isMounted) return;
 
-      console.log("[MNIST] Attempting WebSocket connection to:", WS_URL);
       const ws = new WebSocket(WS_URL);
 
       ws.onopen = () => {
-        console.log("[MNIST] WebSocket connected");
         setConnected(true);
         setError(null);
       };
 
-      ws.onclose = (event) => {
-        console.log("[MNIST] WebSocket closed:", event.code, event.reason);
+      ws.onclose = () => {
         setConnected(false);
-        // Attempt reconnect after 3 seconds
         if (isMounted) {
           reconnectTimeout = setTimeout(connect, 3000);
         }
       };
 
-      ws.onerror = (event) => {
-        console.error("[MNIST] WebSocket error:", event);
-        setError("Connection error - is the backend running?");
+      ws.onerror = () => {
+        setError("Connection error");
         setConnected(false);
       };
 
       ws.onmessage = (event) => {
-        console.log("[MNIST] Received message:", event.data);
         try {
           const data = JSON.parse(event.data);
           if (data.type === "mnist_result") {
@@ -93,19 +87,65 @@ export default function MNISTPage() {
     };
   }, []);
 
-  // Send prediction request
-  const sendPrediction = useCallback(() => {
-    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      wsRef.current.send(
-        JSON.stringify({
-          type: "mnist",
-          data: gridRef.current,
-        })
-      );
+  const sendPrediction = useCallback((immediate = false) => {
+    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
+
+    const now = Date.now();
+    const timeSinceLastSend = now - lastSendTimeRef.current;
+    const THROTTLE_MS = 100;
+
+    const doSend = () => {
+      if (wsRef.current && wsRef.current.readyState !== WebSocket.OPEN) return;
+
+      const raw = gridRef.current;
+      let totalMass = 0;
+      let centerX = 0;
+      let centerY = 0;
+
+      for (let y = 0; y < GRID_SIZE; y++) {
+        for (let x = 0; x < GRID_SIZE; x++) {
+          const val = raw[y * GRID_SIZE + x];
+          totalMass += val;
+          centerX += x * val;
+          centerY += y * val;
+        }
+      }
+
+      const data = new Array(784).fill(0);
+
+      if (totalMass > 0) {
+        const offsetX = 14 - Math.round(centerX / totalMass);
+        const offsetY = 14 - Math.round(centerY / totalMass);
+
+        for (let y = 0; y < GRID_SIZE; y++) {
+          for (let x = 0; x < GRID_SIZE; x++) {
+            const newX = x + offsetX;
+            const newY = y + offsetY;
+            if (newX >= 0 && newX < GRID_SIZE && newY >= 0 && newY < GRID_SIZE) {
+              data[newY * GRID_SIZE + newX] = raw[y * GRID_SIZE + x];
+            }
+          }
+        }
+      }
+
+      wsRef.current?.send(JSON.stringify({ type: "mnist", data }));
+      lastSendTimeRef.current = Date.now();
+    };
+
+    if (immediate || timeSinceLastSend >= THROTTLE_MS) {
+      if (pendingSendRef.current) {
+        clearTimeout(pendingSendRef.current);
+        pendingSendRef.current = null;
+      }
+      doSend();
+    } else if (!pendingSendRef.current) {
+      pendingSendRef.current = setTimeout(() => {
+        pendingSendRef.current = null;
+        doSend();
+      }, THROTTLE_MS - timeSinceLastSend);
     }
   }, []);
 
-  // Initialize canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -117,7 +157,6 @@ export default function MNISTPage() {
     ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
   }, []);
 
-  // Redraw canvas from grid
   const redrawCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -140,7 +179,6 @@ export default function MNISTPage() {
     }
   }, []);
 
-  // Get grid coordinates from canvas position
   const getGridPos = (clientX: number, clientY: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return null;
@@ -155,19 +193,17 @@ export default function MNISTPage() {
     return null;
   };
 
-  // Draw on grid with brush
   const drawAtPos = (x: number, y: number) => {
-    // Draw with a soft brush (affects neighboring pixels)
     const brushPattern = [
       { dx: 0, dy: 0, weight: 1.0 },
-      { dx: -1, dy: 0, weight: 0.5 },
-      { dx: 1, dy: 0, weight: 0.5 },
-      { dx: 0, dy: -1, weight: 0.5 },
-      { dx: 0, dy: 1, weight: 0.5 },
-      { dx: -1, dy: -1, weight: 0.25 },
-      { dx: 1, dy: -1, weight: 0.25 },
-      { dx: -1, dy: 1, weight: 0.25 },
-      { dx: 1, dy: 1, weight: 0.25 },
+      { dx: -1, dy: 0, weight: 0.8 },
+      { dx: 1, dy: 0, weight: 0.8 },
+      { dx: 0, dy: -1, weight: 0.8 },
+      { dx: 0, dy: 1, weight: 0.8 },
+      { dx: -1, dy: -1, weight: 0.5 },
+      { dx: 1, dy: -1, weight: 0.5 },
+      { dx: -1, dy: 1, weight: 0.5 },
+      { dx: 1, dy: 1, weight: 0.5 },
     ];
 
     brushPattern.forEach(({ dx, dy, weight }) => {
@@ -175,12 +211,11 @@ export default function MNISTPage() {
       const ny = y + dy;
       if (nx >= 0 && nx < GRID_SIZE && ny >= 0 && ny < GRID_SIZE) {
         const idx = ny * GRID_SIZE + nx;
-        gridRef.current[idx] = Math.min(1, gridRef.current[idx] + weight * 0.3);
+        gridRef.current[idx] = Math.min(1, gridRef.current[idx] + weight * 0.7);
       }
     });
   };
 
-  // Interpolate between two points for smooth lines
   const interpolate = (
     x0: number,
     y0: number,
@@ -200,7 +235,6 @@ export default function MNISTPage() {
     }
   };
 
-  // Handle mouse/touch events
   const handleStart = (clientX: number, clientY: number) => {
     isDrawingRef.current = true;
     const pos = getGridPos(clientX, clientY);
@@ -229,6 +263,7 @@ export default function MNISTPage() {
       }
       lastPosRef.current = pos;
       redrawCanvas();
+      sendPrediction();
     }
   };
 
@@ -236,17 +271,15 @@ export default function MNISTPage() {
     if (isDrawingRef.current) {
       isDrawingRef.current = false;
       lastPosRef.current = null;
-      sendPrediction();
+      sendPrediction(true);
     }
   };
 
-  // Mouse events
   const onMouseDown = (e: React.MouseEvent) => handleStart(e.clientX, e.clientY);
   const onMouseMove = (e: React.MouseEvent) => handleMove(e.clientX, e.clientY);
   const onMouseUp = () => handleEnd();
   const onMouseLeave = () => handleEnd();
 
-  // Touch events
   const onTouchStart = (e: React.TouchEvent) => {
     e.preventDefault();
     const touch = e.touches[0];
@@ -262,7 +295,6 @@ export default function MNISTPage() {
     handleEnd();
   };
 
-  // Clear canvas
   const clearCanvas = () => {
     gridRef.current = new Array(784).fill(0);
     redrawCanvas();
@@ -291,7 +323,6 @@ export default function MNISTPage() {
               mounted && mobile ? "flex-col items-center" : "flex-row"
             }`}
           >
-            {/* Canvas Section */}
             <div className="flex flex-col items-center">
               <div className="relative">
                 <canvas
@@ -307,7 +338,6 @@ export default function MNISTPage() {
                   onTouchMove={onTouchMove}
                   onTouchEnd={onTouchEnd}
                 />
-                {/* Connection status indicator */}
                 <div
                   className={`absolute top-2 right-2 w-3 h-3 rounded-full ${
                     connected ? "bg-green-500" : "bg-red-500"
@@ -323,41 +353,34 @@ export default function MNISTPage() {
               </button>
             </div>
 
-            {/* Predictions Section */}
             <div className="flex-1 min-w-[200px]">
-              <h2 className="text-2xl font-bold text-text mb-4">Prediction</h2>
+              <h2 className="text-2xl font-bold text-text mb-4">
+                Prediction: <span className="text-textAlternative">{prediction ? prediction.digit : "_"}</span>
+              </h2>
 
               {error && (
                 <p className="text-red-500 mb-4">{error}</p>
               )}
 
-              {prediction ? (
-                <div>
-                  <div className="text-6xl font-bold text-textAlternative mb-6">
-                    {prediction.digit}
-                  </div>
-                  <div className="space-y-2">
-                    {prediction.predictions.map((prob, idx) => (
-                      <div key={idx} className="flex items-center gap-3">
-                        <span className="w-4 text-text font-mono">{idx}</span>
-                        <div className="flex-1 h-4 bg-gray-800 rounded overflow-hidden">
-                          <div
-                            className="h-full bg-textAlternative transition-all duration-300"
-                            style={{ width: `${prob * 100}%` }}
-                          />
-                        </div>
-                        <span className="w-16 text-right text-textAlternative text-sm font-mono">
-                          {(prob * 100).toFixed(1)}%
-                        </span>
+              <div className="space-y-2">
+                {Array.from({ length: 10 }, (_, idx) => {
+                  const prob = prediction?.predictions[idx] ?? 0;
+                  return (
+                    <div key={idx} className="flex items-center gap-3">
+                      <span className="w-4 text-text font-mono">{idx}</span>
+                      <div className="flex-1 h-4 bg-gray-800 rounded overflow-hidden">
+                        <div
+                          className="h-full bg-textAlternative transition-all duration-300"
+                          style={{ width: `${prob * 100}%` }}
+                        />
                       </div>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <p className="text-textAlternative">
-                  Draw a digit to see predictions
-                </p>
-              )}
+                      <span className="w-16 text-right text-textAlternative text-sm font-mono">
+                        {(prob * 100).toFixed(1)}%
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </FadeIn>
