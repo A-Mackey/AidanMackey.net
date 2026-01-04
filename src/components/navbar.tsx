@@ -23,28 +23,24 @@ export default function NavBar() {
 
 function mobileNavbar() {
   return (
-    <div className="flex justify-center pt-3 pb-3">
-      <div className="flex justify-between bg-red-60 max-w-5xl w-screen ">
-        <div className="pl-5 w-auto">
-          <h3>
-            <Link href="/">[AM]</Link>
-          </h3>
-        </div>
-        <div className="pr-5">
-          <ul className="flex gap-5">
-            {navBarItems.map((item, index) => (
-              <li key={index}>
-                <h3>
-                  <a href={item.href}>
-                    {leftBuffer}
-                    {item.text}
-                    {rightBuffer}
-                  </a>
-                </h3>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <div className="flex justify-center pt-3 pb-3 w-full">
+      <div className="flex justify-between max-w-5xl w-full px-4">
+        <h3>
+          <Link href="/">[AM]</Link>
+        </h3>
+        <ul className="flex gap-3">
+          {navBarItems.map((item, index) => (
+            <li key={index}>
+              <h3>
+                <a href={item.href}>
+                  {leftBuffer}
+                  {item.text}
+                  {rightBuffer}
+                </a>
+              </h3>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
@@ -52,28 +48,24 @@ function mobileNavbar() {
 
 function desktopNavbar() {
   return (
-    <div className="flex justify-center pt-3 pb-3">
-      <div className="flex justify-between bg-red-60 max-w-5xl w-screen ">
-        <div className="pl-5 w-auto">
-          <h3>
-            <Link href="/">[AM]</Link>
-          </h3>
-        </div>
-        <div className="pr-5">
-          <ul className="flex gap-5">
-            {navBarItems.map((item, index) => (
-              <li key={index}>
-                <h3>
-                  <a href={item.href}>
-                    {leftBuffer}
-                    {item.text}
-                    {rightBuffer}
-                  </a>
-                </h3>
-              </li>
-            ))}
-          </ul>
-        </div>
+    <div className="flex justify-center pt-3 pb-3 w-full">
+      <div className="flex justify-between max-w-5xl w-full px-5">
+        <h3>
+          <Link href="/">[AM]</Link>
+        </h3>
+        <ul className="flex gap-5">
+          {navBarItems.map((item, index) => (
+            <li key={index}>
+              <h3>
+                <a href={item.href}>
+                  {leftBuffer}
+                  {item.text}
+                  {rightBuffer}
+                </a>
+              </h3>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

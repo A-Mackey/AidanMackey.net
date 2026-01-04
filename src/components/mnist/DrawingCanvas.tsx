@@ -2,9 +2,7 @@
 
 import { useCallback, useEffect, useRef } from "react";
 
-const CANVAS_SIZE = 280;
 const GRID_SIZE = 28;
-const PIXEL_SIZE = CANVAS_SIZE / GRID_SIZE;
 
 interface DrawingCanvasProps {
   connected: boolean;
@@ -12,6 +10,7 @@ interface DrawingCanvasProps {
   onDrawEnd: (gridData: number[]) => void;
   onClear: () => void;
   gridRef: React.MutableRefObject<number[]>;
+  size?: number;
 }
 
 export default function DrawingCanvas({
@@ -20,10 +19,12 @@ export default function DrawingCanvas({
   onDrawEnd,
   onClear,
   gridRef,
+  size = 280,
 }: DrawingCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isDrawingRef = useRef(false);
   const lastPosRef = useRef<{ x: number; y: number } | null>(null);
+  const pixelSize = size / GRID_SIZE;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -33,8 +34,8 @@ export default function DrawingCanvas({
     if (!ctx) return;
 
     ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-  }, []);
+    ctx.fillRect(0, 0, size, size);
+  }, [size]);
 
   const redrawCanvas = useCallback(() => {
     const canvas = canvasRef.current;
@@ -44,7 +45,7 @@ export default function DrawingCanvas({
     if (!ctx) return;
 
     ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    ctx.fillRect(0, 0, size, size);
 
     for (let i = 0; i < 784; i++) {
       const x = i % GRID_SIZE;
@@ -53,10 +54,10 @@ export default function DrawingCanvas({
       if (value > 0) {
         const gray = Math.floor(value * 255);
         ctx.fillStyle = `rgb(${gray}, ${gray}, ${gray})`;
-        ctx.fillRect(x * PIXEL_SIZE, y * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+        ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
       }
     }
-  }, [gridRef]);
+  }, [gridRef, size, pixelSize]);
 
   const getGridPos = (clientX: number, clientY: number) => {
     const canvas = canvasRef.current;
@@ -185,8 +186,8 @@ export default function DrawingCanvas({
       <div className="relative">
         <canvas
           ref={canvasRef}
-          width={CANVAS_SIZE}
-          height={CANVAS_SIZE}
+          width={size}
+          height={size}
           className="border-2 border-textAlternative rounded-lg cursor-crosshair touch-none"
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}

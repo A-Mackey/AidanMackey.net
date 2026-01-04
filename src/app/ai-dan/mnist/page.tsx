@@ -10,17 +10,26 @@ import PredictionDisplay from "@/components/mnist/PredictionDisplay";
 import { useMnistWebSocket } from "@/hooks/useMnistWebSocket";
 
 export default function MNISTPage() {
-  const { mobile, mounted } = useScreenSize();
+  const { mobile, mounted, windowSize } = useScreenSize();
   const gridRef = useRef<number[]>(new Array(784).fill(0));
   const { prediction, connected, error, sendPrediction, clearPrediction } = useMnistWebSocket();
 
+  const getCanvasSize = () => {
+    if (!mounted) return 280;
+    if (!mobile) return 280;
+    // On mobile, use viewport width minus padding (32px total) and cap at 280
+    const maxSize = Math.min(windowSize.width - 32, 280);
+    // Round down to nearest multiple of 28 for clean pixels
+    return Math.floor(maxSize / 28) * 28;
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <Overlay>
         <NavBar />
       </Overlay>
       <div className="flex justify-center items-center w-full min-h-screen">
-        <div className="mt-10 max-w-5xl px-5 w-screen py-10">
+        <div className="mt-10 max-w-5xl px-4 sm:px-5 w-full py-10">
           <FadeIn>
             <h1
               className={`font-bold text-text mb-2 ${
@@ -46,19 +55,20 @@ export default function MNISTPage() {
                 onDrawEnd={(data) => sendPrediction(data, true)}
                 onClear={clearPrediction}
                 gridRef={gridRef}
+                size={getCanvasSize()}
               />
-              <PredictionDisplay prediction={prediction} error={error} />
+              <PredictionDisplay prediction={prediction} error={error} mobile={mounted && mobile} />
             </div>
           </FadeIn>
 
           <FadeIn duration={600}>
-            <div className="mt-12 text-textAlternative text-sm space-y-3">
+            <div className="mt-12 text-textAlternative text-sm space-y-3 break-words">
               <p>
                 Powered by a neural network library I built from scratch in C++, running on the CPU. No TensorFlow, no PyTorch. Just raw matrix math, backpropagation, and optimization implemented by hand.
               </p>
               <ul>
-                <li className="pl-4 text-text"> - <a className="text-textAlternative" href="https://github.com/A-mackey/ai-dan-core">GitHub Repo</a></li>
-                <li className="pl-4 text-text"> - <a className="text-textAlternative" href="https://pypi.org/project/ai-dan-core/">PIP Package</a></li>
+                <li className="pl-4 text-text"> - <a className="text-textAlternative break-all" href="https://github.com/A-mackey/ai-dan-core">GitHub Repo</a></li>
+                <li className="pl-4 text-text"> - <a className="text-textAlternative break-all" href="https://pypi.org/project/ai-dan-core/">PIP Package</a></li>
               </ul>
               <p>
                 <span className="text-text font-semibold">Architecture:</span>{" "}
