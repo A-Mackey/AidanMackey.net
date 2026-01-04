@@ -1,307 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import FadeIn from "@/components/fadeIn";
 import useScreenSize from "@/hooks/useScreenSize";
 import Overlay from "@/components/overlay";
 import NavBar from "@/components/navbar";
-
-interface PredictionResult {
-  predictions: number[];
-  digit: number;
-}
-
-const CANVAS_SIZE = 280;
-const GRID_SIZE = 28;
-const PIXEL_SIZE = CANVAS_SIZE / GRID_SIZE;
-
-const WS_URL = process.env.NEXT_PUBLIC_MNIST_WS_URL || "wss://backend.aidanmackey.net/ws";
+import DrawingCanvas from "@/components/mnist/DrawingCanvas";
+import PredictionDisplay from "@/components/mnist/PredictionDisplay";
+import { useMnistWebSocket } from "@/hooks/useMnistWebSocket";
 
 export default function MNISTPage() {
   const { mobile, mounted } = useScreenSize();
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const gridRef = useRef<number[]>(new Array(784).fill(0));
-  const isDrawingRef = useRef(false);
-  const wsRef = useRef<WebSocket | null>(null);
-  const lastPosRef = useRef<{ x: number; y: number } | null>(null);
-  const lastSendTimeRef = useRef<number>(0);
-  const pendingSendRef = useRef<NodeJS.Timeout | null>(null);
-
-  const [prediction, setPrediction] = useState<PredictionResult | null>(null);
-  const [connected, setConnected] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let isMounted = true;
-    let reconnectTimeout: NodeJS.Timeout | null = null;
-
-    const connect = () => {
-      if (!isMounted) return;
-
-      const ws = new WebSocket(WS_URL);
-
-      ws.onopen = () => {
-        setConnected(true);
-        setError(null);
-      };
-
-      ws.onclose = () => {
-        setConnected(false);
-        if (isMounted) {
-          reconnectTimeout = setTimeout(connect, 3000);
-        }
-      };
-
-      ws.onerror = () => {
-        setError("Connection error");
-        setConnected(false);
-      };
-
-      ws.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data);
-          if (data.type === "mnist_result") {
-            setPrediction({
-              predictions: data.predictions,
-              digit: data.digit,
-            });
-          } else if (data.type === "error") {
-            setError(data.message);
-          }
-        } catch {
-          setError("Failed to parse response");
-        }
-      };
-
-      wsRef.current = ws;
-    };
-
-    connect();
-
-    return () => {
-      isMounted = false;
-      if (reconnectTimeout) {
-        clearTimeout(reconnectTimeout);
-      }
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-    };
-  }, []);
-
-  const sendPrediction = useCallback((immediate = false) => {
-    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return;
-
-    const now = Date.now();
-    const timeSinceLastSend = now - lastSendTimeRef.current;
-    const THROTTLE_MS = 100;
-
-    const doSend = () => {
-      if (wsRef.current && wsRef.current.readyState !== WebSocket.OPEN) return;
-
-      const raw = gridRef.current;
-      let totalMass = 0;
-      let centerX = 0;
-      let centerY = 0;
-
-      for (let y = 0; y < GRID_SIZE; y++) {
-        for (let x = 0; x < GRID_SIZE; x++) {
-          const val = raw[y * GRID_SIZE + x];
-          totalMass += val;
-          centerX += x * val;
-          centerY += y * val;
-        }
-      }
-
-      const data = new Array(784).fill(0);
-
-      if (totalMass > 0) {
-        const offsetX = 14 - Math.round(centerX / totalMass);
-        const offsetY = 14 - Math.round(centerY / totalMass);
-
-        for (let y = 0; y < GRID_SIZE; y++) {
-          for (let x = 0; x < GRID_SIZE; x++) {
-            const newX = x + offsetX;
-            const newY = y + offsetY;
-            if (newX >= 0 && newX < GRID_SIZE && newY >= 0 && newY < GRID_SIZE) {
-              data[newY * GRID_SIZE + newX] = raw[y * GRID_SIZE + x];
-            }
-          }
-        }
-      }
-
-      wsRef.current?.send(JSON.stringify({ type: "mnist", data }));
-      lastSendTimeRef.current = Date.now();
-    };
-
-    if (immediate || timeSinceLastSend >= THROTTLE_MS) {
-      if (pendingSendRef.current) {
-        clearTimeout(pendingSendRef.current);
-        pendingSendRef.current = null;
-      }
-      doSend();
-    } else if (!pendingSendRef.current) {
-      pendingSendRef.current = setTimeout(() => {
-        pendingSendRef.current = null;
-        doSend();
-      }, THROTTLE_MS - timeSinceLastSend);
-    }
-  }, []);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-  }, []);
-
-  const redrawCanvas = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-
-    for (let i = 0; i < 784; i++) {
-      const x = i % GRID_SIZE;
-      const y = Math.floor(i / GRID_SIZE);
-      const value = gridRef.current[i];
-      if (value > 0) {
-        const gray = Math.floor(value * 255);
-        ctx.fillStyle = `rgb(${gray}, ${gray}, ${gray})`;
-        ctx.fillRect(x * PIXEL_SIZE, y * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
-      }
-    }
-  }, []);
-
-  const getGridPos = (clientX: number, clientY: number) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return null;
-
-    const rect = canvas.getBoundingClientRect();
-    const x = Math.floor(((clientX - rect.left) / rect.width) * GRID_SIZE);
-    const y = Math.floor(((clientY - rect.top) / rect.height) * GRID_SIZE);
-
-    if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE) {
-      return { x, y };
-    }
-    return null;
-  };
-
-  const drawAtPos = (x: number, y: number) => {
-    const brushPattern = [
-      { dx: 0, dy: 0, weight: 1.0 },
-      { dx: -1, dy: 0, weight: 0.8 },
-      { dx: 1, dy: 0, weight: 0.8 },
-      { dx: 0, dy: -1, weight: 0.8 },
-      { dx: 0, dy: 1, weight: 0.8 },
-      { dx: -1, dy: -1, weight: 0.5 },
-      { dx: 1, dy: -1, weight: 0.5 },
-      { dx: -1, dy: 1, weight: 0.5 },
-      { dx: 1, dy: 1, weight: 0.5 },
-    ];
-
-    brushPattern.forEach(({ dx, dy, weight }) => {
-      const nx = x + dx;
-      const ny = y + dy;
-      if (nx >= 0 && nx < GRID_SIZE && ny >= 0 && ny < GRID_SIZE) {
-        const idx = ny * GRID_SIZE + nx;
-        gridRef.current[idx] = Math.min(1, gridRef.current[idx] + weight * 0.7);
-      }
-    });
-  };
-
-  const interpolate = (
-    x0: number,
-    y0: number,
-    x1: number,
-    y1: number,
-    callback: (x: number, y: number) => void
-  ) => {
-    const dx = Math.abs(x1 - x0);
-    const dy = Math.abs(y1 - y0);
-    const steps = Math.max(dx, dy);
-
-    for (let i = 0; i <= steps; i++) {
-      const t = steps === 0 ? 0 : i / steps;
-      const x = Math.round(x0 + (x1 - x0) * t);
-      const y = Math.round(y0 + (y1 - y0) * t);
-      callback(x, y);
-    }
-  };
-
-  const handleStart = (clientX: number, clientY: number) => {
-    isDrawingRef.current = true;
-    const pos = getGridPos(clientX, clientY);
-    if (pos) {
-      lastPosRef.current = pos;
-      drawAtPos(pos.x, pos.y);
-      redrawCanvas();
-    }
-  };
-
-  const handleMove = (clientX: number, clientY: number) => {
-    if (!isDrawingRef.current) return;
-
-    const pos = getGridPos(clientX, clientY);
-    if (pos) {
-      if (lastPosRef.current) {
-        interpolate(
-          lastPosRef.current.x,
-          lastPosRef.current.y,
-          pos.x,
-          pos.y,
-          drawAtPos
-        );
-      } else {
-        drawAtPos(pos.x, pos.y);
-      }
-      lastPosRef.current = pos;
-      redrawCanvas();
-      sendPrediction();
-    }
-  };
-
-  const handleEnd = () => {
-    if (isDrawingRef.current) {
-      isDrawingRef.current = false;
-      lastPosRef.current = null;
-      sendPrediction(true);
-    }
-  };
-
-  const onMouseDown = (e: React.MouseEvent) => handleStart(e.clientX, e.clientY);
-  const onMouseMove = (e: React.MouseEvent) => handleMove(e.clientX, e.clientY);
-  const onMouseUp = () => handleEnd();
-  const onMouseLeave = () => handleEnd();
-
-  const onTouchStart = (e: React.TouchEvent) => {
-    e.preventDefault();
-    const touch = e.touches[0];
-    handleStart(touch.clientX, touch.clientY);
-  };
-  const onTouchMove = (e: React.TouchEvent) => {
-    e.preventDefault();
-    const touch = e.touches[0];
-    handleMove(touch.clientX, touch.clientY);
-  };
-  const onTouchEnd = (e: React.TouchEvent) => {
-    e.preventDefault();
-    handleEnd();
-  };
-
-  const clearCanvas = () => {
-    gridRef.current = new Array(784).fill(0);
-    redrawCanvas();
-    setPrediction(null);
-  };
+  const { prediction, connected, error, sendPrediction, clearPrediction } = useMnistWebSocket();
 
   return (
     <div className="min-h-screen bg-background">
@@ -310,110 +21,59 @@ export default function MNISTPage() {
       </Overlay>
       <div className="flex justify-center items-center w-full min-h-screen">
         <div className="mt-10 max-w-5xl px-5 w-screen py-10">
-        <FadeIn>
-          <h1
-            className={`font-bold text-text mb-2 ${
-              mounted && mobile ? "text-3xl" : "text-5xl"
-            }`}
-          >
-            {"<MNIST_Demo/>"}
-          </h1>
-          <p className="text-textAlternative mb-8">
-            Draw a digit (0-9) and watch the neural network predict in real-time
-          </p>
-        </FadeIn>
+          <FadeIn>
+            <h1
+              className={`font-bold text-text mb-2 ${
+                mounted && mobile ? "text-3xl" : "text-5xl"
+              }`}
+            >
+              {"<MNIST_Demo/>"}
+            </h1>
+            <p className="text-textAlternative mb-8">
+              Draw a digit (0-9) and watch the neural network predict in real-time
+            </p>
+          </FadeIn>
 
-        <FadeIn duration={400}>
-          <div
-            className={`flex gap-8 ${
-              mounted && mobile ? "flex-col items-center" : "flex-row"
-            }`}
-          >
-            <div className="flex flex-col items-center">
-              <div className="relative">
-                <canvas
-                  ref={canvasRef}
-                  width={CANVAS_SIZE}
-                  height={CANVAS_SIZE}
-                  className="border-2 border-textAlternative rounded-lg cursor-crosshair touch-none"
-                  onMouseDown={onMouseDown}
-                  onMouseMove={onMouseMove}
-                  onMouseUp={onMouseUp}
-                  onMouseLeave={onMouseLeave}
-                  onTouchStart={onTouchStart}
-                  onTouchMove={onTouchMove}
-                  onTouchEnd={onTouchEnd}
-                />
-                <div
-                  className={`absolute top-2 right-2 w-3 h-3 rounded-full ${
-                    connected ? "bg-green-500" : "bg-red-500"
-                  }`}
-                  title={connected ? "Connected" : "Disconnected"}
-                />
-              </div>
-              <button
-                onClick={clearCanvas}
-                className="mt-4 px-6 py-2 bg-textAlternative text-background rounded-lg hover:opacity-80 transition-opacity font-semibold"
-              >
-                Clear
-              </button>
+          <FadeIn duration={400}>
+            <div
+              className={`flex gap-8 ${
+                mounted && mobile ? "flex-col items-center" : "flex-row"
+              }`}
+            >
+              <DrawingCanvas
+                connected={connected}
+                onDraw={(data) => sendPrediction(data)}
+                onDrawEnd={(data) => sendPrediction(data, true)}
+                onClear={clearPrediction}
+                gridRef={gridRef}
+              />
+              <PredictionDisplay prediction={prediction} error={error} />
             </div>
+          </FadeIn>
 
-            <div className="flex-1 min-w-[200px]">
-              <h2 className="text-2xl font-bold text-text mb-4">
-                Prediction: <span className="text-textAlternative">{prediction ? prediction.digit : "_"}</span>
-              </h2>
-
-              {error && (
-                <p className="text-red-500 mb-4">{error}</p>
-              )}
-
-              <div className="space-y-2">
-                {Array.from({ length: 10 }, (_, idx) => {
-                  const prob = prediction?.predictions[idx] ?? 0;
-                  return (
-                    <div key={idx} className="flex items-center gap-3">
-                      <span className="w-4 text-text font-mono">{idx}</span>
-                      <div className="flex-1 h-4 bg-gray-800 rounded overflow-hidden">
-                        <div
-                          className="h-full bg-textAlternative transition-all duration-300"
-                          style={{ width: `${prob * 100}%` }}
-                        />
-                      </div>
-                      <span className="w-16 text-right text-textAlternative text-sm font-mono">
-                        {(prob * 100).toFixed(1)}%
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
+          <FadeIn duration={600}>
+            <div className="mt-12 text-textAlternative text-sm space-y-3">
+              <p>
+                Powered by a neural network library I built from scratch in C++, running on the CPU. No TensorFlow, no PyTorch. Just raw matrix math, backpropagation, and optimization implemented by hand.
+              </p>
+              <ul>
+                <li className="pl-4 text-text"> - <a className="text-textAlternative" href="https://github.com/A-mackey/ai-dan-core">GitHub Repo</a></li>
+                <li className="pl-4 text-text"> - <a className="text-textAlternative" href="https://pypi.org/project/ai-dan-core/">PIP Package</a></li>
+              </ul>
+              <p>
+                <span className="text-text font-semibold">Architecture:</span>{" "}
+                784-256-128-10 fully-connected network. ReLU activations, softmax output, cross-entropy loss.
+              </p>
+              <p>
+                <span className="text-text font-semibold">Training:</span>{" "}
+                Adam optimizer (lr=0.001, β₁=0.9, β₂=0.999). Batch size 32. 96%+ accuracy on 10k test set.
+              </p>
+              <p>
+                <span className="text-text font-semibold">Implementation:</span>{" "}
+                C++23. Multi-threaded with adaptive parallelism. ~3k samples/sec throughput.
+              </p>
             </div>
-          </div>
-        </FadeIn>
-
-        <FadeIn duration={600}>
-          <div className="mt-12 text-textAlternative text-sm space-y-3">
-            <p>
-              Powered by a neural network library I built from scratch in C++, running on the CPU. No TensorFlow, no PyTorch. Just raw matrix math, backpropagation, and optimization implemented by hand.
-            </p> 
-            <ul>
-              <li className="pl-4 text-text"> - <a className="text-textAlternative" href="https://github.com/A-mackey/ai-dan-core">GitHub Repo</a></li>
-              <li className="pl-4 text-text"> - <a className="text-textAlternative" href="https://pypi.org/project/ai-dan-core/">PIP Package</a></li>
-            </ul>
-            <p>
-              <span className="text-text font-semibold">Architecture:</span>{" "}
-              784-256-128-10 fully-connected network. ReLU activations, softmax output, cross-entropy loss.
-            </p>
-            <p>
-              <span className="text-text font-semibold">Training:</span>{" "}
-              Adam optimizer (lr=0.001, β₁=0.9, β₂=0.999). Batch size 32. 96%+ accuracy on 10k test set.
-            </p>
-            <p>
-              <span className="text-text font-semibold">Implementation:</span>{" "}
-              C++23. Multi-threaded with adaptive parallelism. ~3k samples/sec throughput.
-            </p>
-          </div>
-        </FadeIn>
+          </FadeIn>
         </div>
       </div>
     </div>
