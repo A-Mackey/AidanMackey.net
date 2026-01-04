@@ -15,14 +15,14 @@ export interface Project {
 export default function Landing() {
   const { mobile, mounted } = useScreenSize();
   const projects: Project[] = [
-    // {
-    //   title: "Ai-Dan",
-    //   description:
-    //     "Developed an LLM trained on data about me to answer any questions for users visiting this website!",
-    //   buttonText: "Website",
-    //   href: "/ai-dan",
-    //   redirect: false,
-    // },
+    {
+      title: "MNIST Neural Network",
+      description:
+        "Built a neural network library from scratch in C++23. No ML frameworks. Trained on MNIST with 96%+ accuracy. Try the live demo.",
+      buttonText: "Demo",
+      href: "/ai-dan/mnist",
+      redirect: false,
+    },
     {
       title: "Raycasting Engine",
       description:

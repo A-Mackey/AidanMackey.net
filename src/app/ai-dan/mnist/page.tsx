@@ -309,7 +309,7 @@ export default function MNISTPage() {
         <NavBar />
       </Overlay>
       <div className="flex justify-center items-center w-full min-h-screen">
-        <div className="max-w-5xl px-5 w-screen py-10">
+        <div className="mt-10 max-w-5xl px-5 w-screen py-10">
         <FadeIn>
           <h1
             className={`font-bold text-text mb-2 ${

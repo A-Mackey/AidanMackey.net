@@ -7,7 +7,7 @@ const leftBuffer = "[";
 const rightBuffer = "]";
 
 const navBarItems = [
-  { href: "http://raycast.aidanmackey.net", text: "Raycast" },
+  { href: "/ai-dan/mnist", text: "Ai-Dan" },
   { href: "mailto:aidann.mackey@gmail.com", text: "Contact" },
 ];
 
@@ -56,7 +56,7 @@ function desktopNavbar() {
       <div className="flex justify-between bg-red-60 max-w-5xl w-screen ">
         <div className="pl-5 w-auto">
           <h3>
-            <a href="">[AM]</a>
+            <Link href="/">[AM]</Link>
           </h3>
         </div>
         <div className="pr-5">
