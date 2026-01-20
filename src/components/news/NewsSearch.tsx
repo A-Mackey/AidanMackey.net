@@ -25,7 +25,7 @@ export default function NewsSearch({ onSearch, loading, mobile }: NewsSearchProp
         <textarea
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
-          placeholder="Ask about current events... (e.g., 'What's happening with AI regulation?')"
+          placeholder="Ask about current events... (e.g., 'What's happening with the economy?)"
           className={`w-full p-4 bg-foreground text-text border border-textAlternative/30 rounded-lg
             focus:outline-none focus:border-textAlternative resize-none
             placeholder:text-text/50 ${mobile ? "text-base" : "text-lg"}`}
