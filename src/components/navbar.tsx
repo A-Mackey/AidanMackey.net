@@ -7,7 +7,7 @@ const leftBuffer = "[";
 const rightBuffer = "]";
 
 const navBarItems = [
-  { href: "/ai-dan/mnist", text: "Ai-Dan" },
+  { href: "/ai-dan/news", text: "Ai-Dan" },
   { href: "mailto:aidann.mackey@gmail.com", text: "Contact" },
 ];
 

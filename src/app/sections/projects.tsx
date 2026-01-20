@@ -16,6 +16,14 @@ export default function Landing() {
   const { mobile, mounted } = useScreenSize();
   const projects: Project[] = [
     {
+      title: "News RAG",
+      description:
+        "RAG system with a custom news pipeline. Airflow scrapes articles hourly, Llama 3.1 summarizes and extracts entities, pgvector enables semantic search.",
+      buttonText: "Demo",
+      href: "/ai-dan/news",
+      redirect: false,
+    },
+    {
       title: "MNIST Neural Network",
       description:
         "Built a neural network library from scratch in C++23. No ML frameworks. Trained on MNIST with 96%+ accuracy. Try the live demo.",
