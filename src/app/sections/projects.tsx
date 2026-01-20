@@ -61,13 +61,6 @@ export default function Landing() {
       href: "https://github.com/A-Mackey/Inspirometer-Mobile",
     },
     {
-      title: "IG Captions",
-      description:
-        "Developed a social media caption generation tool using React with a back-end in the Spring Boot Java API framework.",
-      buttonText: "GitHub",
-      href: "https://github.com/A-Mackey/Caption-Generator-Java-REST-API",
-    },
-    {
       title: "Hack for Humanity 2021",
       description:
         'Created a website with a team that empowers low-income households and students to find cost-efficient recipes and order from local grocery stores or pickup. Won award for "Best use of Microsoft Azure".',
