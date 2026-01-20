@@ -110,6 +110,10 @@ export default function NewsPage() {
                 <span className="text-text font-semibold">Stack:</span>{" "}
                 PostgreSQL + pgvector, Apache Airflow 3.x, Ollama (Llama 3.1:8b), FastAPI.
               </p>
+              <p>
+                <span className="text-text font-semibold">Infrastructure:</span>{" "}
+                The backend for this setup spans between two different servers in my apartment. The first being a dedicated server, and the second being my personal computer. Due to the outdated GPU installed in the server, modern CUDA cannot run and hence ollama refuses to run models efficiently. So, all LLM summarization/embedding/entity-extraction is offloaded to my personal computer running a Nvidia 2080 Super.
+              </p>
             </div>
           </FadeIn>
         </div>
