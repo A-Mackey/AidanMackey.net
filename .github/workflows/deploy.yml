@@ -1,4 +1,4 @@
-name: Deployment Pipeline
+name: Build and push Docker image
 
 on:
   push:
@@ -6,137 +6,28 @@ on:
       - main
 
 jobs:
-  deploy-beta:
+  docker:
     runs-on: ubuntu-latest
-    environment: beta
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
         with:
-            fetch-depth: 0
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Merge main into beta
-        run: |
-          git config --global user.email "ci@example.com"
-          git config --global user.name "CI Bot"
-          git fetch origin
-          git checkout -B beta origin/beta
-          git merge origin/main -X theirs -m "Merge main into beta"
-          git push origin beta
-
-      - name: Set up SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H aidanmackey.net >> ~/.ssh/known_hosts
-
-      - name: Deploy to Beta
-        run: |
-          ssh -i ~/.ssh/id_rsa deploy_beta@aidanmackey.net << 'EOF'
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm use 22
-            cd AidanMackey.net
-            git fetch origin
-            git checkout beta
-            git reset --hard origin/beta
-            git clean -fd
-            npm install dotenv
-            npm run docker:beta
-          EOF
-  
-  # beta-bake-time:
-  #   needs: deploy-beta
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Wait 30 minutes
-  #       run: sleep 1800
-
-  deploy-gamma:
-    # needs: beta-bake-time
-    needs: deploy-beta
-    runs-on: ubuntu-latest
-    environment: gamma
-    steps:
-      - uses: actions/checkout@v5
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
         with:
-            fetch-depth: 0
+          context: .
+          push: true
+          tags: |
+            ghcr.io/A-Mackey/aidan-mackey-net-prod:latest
+            ghcr.io/A-Mackey/aidan-mackey-net-prod:${{ github.sha }}
 
-      - name: Merge beta into gamma
-        run: |
-          git config --global user.email "ci@example.com"
-          git config --global user.name "CI Bot"
-          git fetch origin
-          git checkout -B gamma origin/gamma
-          git merge origin/beta -X theirs -m "Merge beta into gamma"
-          git push origin gamma
-
-      - name: Set up SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H aidanmackey.net >> ~/.ssh/known_hosts
-
-      - name: Deploy to Gamma
-        run: |
-          ssh -i ~/.ssh/id_rsa deploy_gamma@aidanmackey.net << 'EOF'
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm use 22
-            cd AidanMackey.net
-            git fetch origin
-            git checkout gamma
-            git reset --hard origin/gamma
-            git clean -fd
-            npm install dotenv
-            npm run docker:gamma
-          EOF
-
-  # gamma-bake-time:
-  #   needs: deploy-gamma
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Wait 30 minutes
-  #       run: sleep 1800
-
-  deploy-prod:
-    # needs: gamma-bake-time
-    needs: deploy-gamma
-    runs-on: ubuntu-latest
-    environment: prod
-    steps:
-      - uses: actions/checkout@v5
-        with:
-            fetch-depth: 0
-
-      - name: Merge gamma into prod
-        run: |
-          git config --global user.email "ci@example.com"
-          git config --global user.name "CI Bot"
-          git fetch origin
-          git checkout -B prod origin/prod
-          git merge origin/gamma -X theirs -m "Merge gamma into prod"
-          git push origin prod 
-
-      - name: Set up SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H aidanmackey.net >> ~/.ssh/known_hosts
-
-      - name: Deploy to Prod
-        run: |
-          ssh -i ~/.ssh/id_rsa deploy_prod@aidanmackey.net << 'EOF'
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm use 22
-            cd AidanMackey.net
-            git fetch origin
-            git checkout prod
-            git reset --hard origin/prod
-            git clean -fd
-            npm install dotenv
-            npm run docker:prod
-          EOF
