@@ -28,6 +28,6 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/A-Mackey/aidan-mackey-net-prod:latest
-            ghcr.io/A-Mackey/aidan-mackey-net-prod:${{ github.sha }}
+            ghcr.io/a-mackey/aidan-mackey-net-prod:latest
+            ghcr.io/a-mackey/aidan-mackey-net-prod:${{ github.sha }}
 
