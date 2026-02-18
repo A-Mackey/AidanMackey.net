@@ -1,12 +1,14 @@
 "use client";
 
-import { NewsResponse, NewsSource } from "@/app/ai-dan/news/page";
+import { NewsResponse, NewsSource, SearchMode } from "@/app/ai-dan/news/page";
 
 interface NewsResultsProps {
   response: NewsResponse | null;
+  searchResults: NewsSource[] | null;
   loading: boolean;
   error: string | null;
   mobile: boolean;
+  mode: SearchMode;
 }
 
 function formatDate(dateString: string): string {
@@ -63,7 +65,7 @@ function SourceCard({ source, index }: { source: NewsSource; index: number }) {
   );
 }
 
-export default function NewsResults({ response, loading, error, mobile }: NewsResultsProps) {
+export default function NewsResults({ response, searchResults, loading, error, mobile, mode }: NewsResultsProps) {
   if (loading) {
     return (
       <div className="mt-8 flex flex-col items-center justify-center py-12">
@@ -77,6 +79,23 @@ export default function NewsResults({ response, loading, error, mobile }: NewsRe
     return (
       <div className="mt-8 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
         <p className="text-red-400">Error: {error}</p>
+      </div>
+    );
+  }
+
+  if (mode === "semantic" && searchResults) {
+    return (
+      <div className="mt-8 space-y-6">
+        <div>
+          <h2 className={`text-text font-semibold mb-4 ${mobile ? "text-lg" : "text-xl"}`}>
+            Results ({searchResults.length})
+          </h2>
+          <div className="space-y-4">
+            {searchResults.map((source, index) => (
+              <SourceCard key={source.id} source={source} index={index} />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }

@@ -19,6 +19,8 @@ export interface NewsSource {
   similarity: number;
 }
 
+export type SearchMode = "ai" | "semantic";
+
 export interface NewsResponse {
   answer: string;
   sources: NewsSource[];
@@ -27,32 +29,37 @@ export interface NewsResponse {
 export default function NewsPage() {
   const { mobile, mounted } = useScreenSize();
   const [response, setResponse] = useState<NewsResponse | null>(null);
+  const [searchResults, setSearchResults] = useState<NewsSource[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mode, setMode] = useState<SearchMode>("ai");
 
-  const handleSearch = async (question: string, numArticles: number) => {
+  const handleSearch = async (question: string) => {
     setLoading(true);
     setError(null);
     setResponse(null);
+    setSearchResults(null);
 
     try {
-      const res = await fetch("https://backend.aidanmackey.net/news", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          question,
-          num_articles: numArticles,
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error(`Request failed: ${res.status}`);
+      if (mode === "ai") {
+        const res = await fetch("https://backend.aidanmackey.net/news", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question }),
+        });
+        if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+        const data: NewsResponse = await res.json();
+        setResponse(data);
+      } else {
+        const res = await fetch("https://backend.aidanmackey.net/news/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ input: question }),
+        });
+        if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+        const data: NewsSource[] = await res.json();
+        setSearchResults(data);
       }
-
-      const data: NewsResponse = await res.json();
-      setResponse(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -81,15 +88,17 @@ export default function NewsPage() {
           </FadeIn>
 
           <FadeIn duration={400}>
-            <NewsSearch onSearch={handleSearch} loading={loading} mobile={mounted && mobile} />
+            <NewsSearch onSearch={handleSearch} loading={loading} mobile={mounted && mobile} mode={mode} onModeChange={setMode} />
           </FadeIn>
 
           <FadeIn duration={600}>
             <NewsResults
               response={response}
+              searchResults={searchResults}
               loading={loading}
               error={error}
               mobile={mounted && mobile}
+              mode={mode}
             />
           </FadeIn>
 
