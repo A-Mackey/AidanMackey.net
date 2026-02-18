@@ -82,6 +82,10 @@ export default function MNISTPage() {
                 <span className="text-text font-semibold">Implementation:</span>{" "}
                 C++23. Multi-threaded with adaptive parallelism. ~3k samples/sec throughput.
               </p>
+              <p>
+                <span className="text-text font-semibold">Infrastructure:</span>{" "}
+                Since the neural network is <a className="text-textAlternative" href="https://github.com/A-Mackey/ai-dan-core">written from scratch in C++</a>, all inference runs on the CPU. The backend serving this page is a Raspberry Pi 500 (ARM Cortex-A72, 2.5 GHz quad-core), and even so, model inference only hits about 4% CPU utilization.
+              </p>
             </div>
           </FadeIn>
         </div>

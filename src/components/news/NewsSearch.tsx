@@ -1,7 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SearchMode } from "@/app/ai-dan/news/page";
+
+const EXAMPLE_QUERIES = [
+  "What's going on in the news today?",
+  "Tell me about the stock market",
+  "Are there any recent news stories about the US government?",
+  "What's happening in the tech industry?",
+  "Any updates on climate change?",
+  "What are the latest developments in AI?",
+  "Is there any breaking news right now?",
+  "What's happening in the Middle East?",
+  "Any recent natural disasters?",
+  "What's going on in the world of sports?",
+  "Tell me about recent economic policy changes",
+  "What are the latest healthcare headlines?",
+  "Any news about space exploration?",
+  "What's happening in European politics?",
+];
+
+function pickRandom<T>(arr: T[], count: number): T[] {
+  const shuffled = [...arr].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count);
+}
 
 interface NewsSearchProps {
   onSearch: (question: string) => void;
@@ -13,6 +35,11 @@ interface NewsSearchProps {
 
 export default function NewsSearch({ onSearch, loading, mobile, mode, onModeChange }: NewsSearchProps) {
   const [question, setQuestion] = useState("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+
+  useEffect(() => {
+    setSuggestions(pickRandom(EXAMPLE_QUERIES, 4));
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +55,7 @@ export default function NewsSearch({ onSearch, loading, mobile, mode, onModeChan
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           placeholder={mode === "ai"
-            ? "Ask about current events... (e.g., 'What's happening with the economy?')"
+            ? "Ask about current events..."
             : "Search for articles... (e.g., 'climate change policy')"
           }
           className={`w-full p-4 bg-foreground text-text border border-textAlternative/30 rounded-lg
@@ -37,6 +64,20 @@ export default function NewsSearch({ onSearch, loading, mobile, mode, onModeChan
           rows={3}
           disabled={loading}
         />
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {suggestions.map((suggestion) => (
+          <button
+            key={suggestion}
+            type="button"
+            onClick={() => setQuestion(suggestion)}
+            className="px-3 py-1 text-sm text-text/70 border border-textAlternative/20 rounded-full
+              hover:border-textAlternative/50 hover:text-text transition-colors"
+          >
+            {suggestion}
+          </button>
+        ))}
       </div>
 
       <div className={`flex gap-4 ${mobile ? "flex-col" : "flex-row items-center justify-between"}`}>
