@@ -3,6 +3,7 @@
 import { useState } from "react";
 import FadeIn from "@/components/fadeIn";
 import useScreenSize from "@/hooks/useScreenSize";
+import { config } from "@/config";
 import Overlay from "@/components/overlay";
 import NavBar from "@/components/navbar";
 import NewsSearch from "@/components/news/NewsSearch";
@@ -42,7 +43,7 @@ export default function NewsPage() {
 
     try {
       if (mode === "ai") {
-        const res = await fetch("https://backend.aidanmackey.net/news", {
+        const res = await fetch(config.api.news, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ question }),
@@ -51,7 +52,7 @@ export default function NewsPage() {
         const data: NewsResponse = await res.json();
         setResponse(data);
       } else {
-        const res = await fetch("https://backend.aidanmackey.net/news/search", {
+        const res = await fetch(config.api.newsSearch, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ input: question }),

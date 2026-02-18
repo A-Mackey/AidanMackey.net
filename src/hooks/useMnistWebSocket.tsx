@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import { config } from "@/config";
 
-const WS_URL = process.env.NEXT_PUBLIC_MNIST_WS_URL || "wss://backend.aidanmackey.net/ws";
+const WS_URL = config.ws.mnist;
 const GRID_SIZE = 28;
 const THROTTLE_MS = 100;
 
